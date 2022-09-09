@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 523420240045937840}
   - component: {fileID: 523420240045937841}
   - component: {fileID: 523420240045937847}
-  - component: {fileID: 523420240045937846}
+  - component: {fileID: 1330116707}
   m_Layer: 0
   m_Name: CommunicationManager
   m_TagString: Untagged
@@ -87,8 +87,21 @@ MonoBehaviour:
       m_Calls: []
   appDatagramEvent:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &523420240045937846
+      m_Calls:
+      - m_Target: {fileID: 1330116707}
+        m_TargetAssemblyTypeName: PuzzleCubes.Applications.PerformanceBot.PerformanceBotEventDispatcher,
+          Assembly-CSharp
+        m_MethodName: HandleDatagram
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1330116707
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,45 +110,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 523420240045937853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec700efba1796e43b70cce2cc2509ef, type: 3}
+  m_Script: {fileID: 11500000, guid: cc64de53ca899934795d9074322702a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 0}
-  dispatcher: {fileID: 0}
-  notification:
-    type: 0
-    message: 
-  cubeControl:
-    position: {x: 0, y: 0}
-    orientation: 0
-    velocity: {x: 0, y: 0}
-    angularVelocity: 0
-    positionConfidence: 0
-    orientationConfidence: 0
-    velocityConfidence: 0
-    angularVelocityConfidence: 0
-    moving: 0
-    tap: 0
-    tilt: 0
-    translationStepBackward: 0
-    translationStepLeft: 0
-    translationStepRight: 0
-    rotationStepLeft: 0
-    rotationStepRight: 0
-  cubeState:
-    id: 
-    current: 0
-    pose:
-      position: {x: 0, y: 0}
-      positionConfidence: {x: 0, y: 0}
-      velocity: {x: 0, y: 0}
-      velocityConfidence: {x: 0, y: 0}
-      orientation: 0
-      angularVelocity: 0
-  requestTestDataType: 3
-  sendNotification: 0
-  sendCubeControl: 0
-  requestTestData: 0
-  sendNotificationInternal: 0
-  sendCubeControlInternal: 0
-  sendCubeStateInternal: 0
+  areaControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  phaseControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  actionControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
