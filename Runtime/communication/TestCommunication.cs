@@ -95,20 +95,7 @@ namespace PuzzleCubes
                 }
             }
 
-            // private void SendAppDatagram()
-            // {
-            //     if (Application.isPlaying)
-            //     {
-            //         Debug.Log("SendAppDatagram");
-            //         if (communication != null)
-            //         {
-            //             var datagram = new Models.WebSocketDatagram();
-            //             datagram.AppDatagram = new Models.AppDatagram();
-            //             communication.SendWebSocketMessage(datagram);
-            //         }
-            //     }
-            // }
-
+        
             private void SendCubeControl()
             {
                 if (Application.isPlaying)
@@ -169,19 +156,7 @@ namespace PuzzleCubes
                 }
             }
 
-            // private void SendAppDatagramInternal()
-            // {
-            //     if (Application.isPlaying)
-            //     {
-            //         Debug.Log("SendAppDatagramInternal");
-            //         if (dispatcher != null)
-            //         {
-            //             var datagram = new Models.WebSocketDatagram();
-            //             datagram.AppDatagram = new Models.AppDatagram();
-            //             dispatcher.HandleWebsocketEvent(datagram);
-            //         }
-            //     }
-            // }
+          
 
             private void SendCubeControlInternal()
             {

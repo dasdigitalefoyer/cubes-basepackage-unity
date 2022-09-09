@@ -65,7 +65,7 @@ namespace PuzzleCubes
 
             async System.Threading.Tasks.Task ContinousConnect()
             {
-                while (!this.IsDestroyed())
+                while (this!=null)
                 {
                     await websocket.Connect();
                     await System.Threading.Tasks.Task.Delay(1000);

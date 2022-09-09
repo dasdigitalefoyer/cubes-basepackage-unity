@@ -1,6 +1,9 @@
 {
     "name": "Unity.com.mirevi.pc-unity-base",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:04376767bc1f3b428aefa3d20743e819"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

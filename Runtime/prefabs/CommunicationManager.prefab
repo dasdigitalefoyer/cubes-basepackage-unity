@@ -43,30 +43,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 523420240045937853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a4626bccdc8d74e8cfc0ab9e491ef5, type: 3}
+  m_Script: {fileID: 11500000, guid: 633ecdafc44f0364d84de8ea87d8afbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: pc-server.mirevi
+  host: pc-server
   path: /ws
   port: 8888
   websocketEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 523420240045937846}
-        m_TargetAssemblyTypeName: PuzzleCubes.Communication.EventDispatcher, Assembly-CSharp
-        m_MethodName: HandleWebsocketEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 523420240045937847}
-        m_TargetAssemblyTypeName: EventDispatcher, Assembly-CSharp
-        m_MethodName: handleWebsocketEvent
+        m_TargetAssemblyTypeName: PuzzleCubes.Communication.EventDispatcher, Unity.com.mirevi.pc-unity-base
+        m_MethodName: HandleWebsocketEvent
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -85,16 +73,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 523420240045937853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f7edc11c295174ea92bf34e75799ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 5af90f20aba34104bb1a59e6dcc8b1ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 523420240045937841}
-  dispatcher: {fileID: 523420240045937846}
+  cubeControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cubeStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  notificationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  appDatagramEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &523420240045937846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523420240045937853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec700efba1796e43b70cce2cc2509ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  communication: {fileID: 0}
+  dispatcher: {fileID: 0}
   notification:
     type: 0
     message: 
-  appDatagram:
-    type: 
   cubeControl:
     position: {x: 0, y: 0}
     orientation: 0
@@ -122,33 +132,10 @@ MonoBehaviour:
       velocityConfidence: {x: 0, y: 0}
       orientation: 0
       angularVelocity: 0
-  requestTestDataType: 2
+  requestTestDataType: 3
   sendNotification: 0
-  sendAppDatagram: 0
   sendCubeControl: 0
   requestTestData: 0
   sendNotificationInternal: 0
-  sendAppDatagramInternal: 0
   sendCubeControlInternal: 0
   sendCubeStateInternal: 0
---- !u!114 &523420240045937846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523420240045937853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3da80d4290125e047a8e8b0302434bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeControlEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  cubeStateEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  notificationEvent:
-    m_PersistentCalls:
-      m_Calls: []
