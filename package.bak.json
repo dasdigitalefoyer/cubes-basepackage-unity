@@ -1,0 +1,17 @@
+"samples": [
+      {
+        "displayName": "Example",
+        "description": "PuzzleCube Base Example",
+        "path": "Samples/communicationExample"
+      }
+    ]
+
+    "homepage": "https://github.com/mirevi/pc-unity-base.git",
+    "bugs": {
+      "url": "https://github.com/mirevi/pc-unity-base/issues"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com/mirevi/pc-unity-base.git"
+    },
+    "license": "MIT",

@@ -1,0 +1,11 @@
+{
+  "name": "Unity.com.mirevi.pc-unity-base.Editor.Tests",
+  "references": [
+    "Unity.com.mirevi.pc-unity-base"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}
