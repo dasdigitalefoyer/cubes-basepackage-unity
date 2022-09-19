@@ -24,6 +24,7 @@ namespace PuzzleCubes
             [UnityEngine.SerializeField] private bool tap = false;
 
             [UnityEngine.SerializeField] private bool tilt = false;
+            [UnityEngine.SerializeField] private bool translationStepForward = false;
             [UnityEngine.SerializeField] private bool translationStepBackward = false;
             [UnityEngine.SerializeField] private bool translationStepLeft = false;
             [UnityEngine.SerializeField] private bool translationStepRight = false;
@@ -35,6 +36,7 @@ namespace PuzzleCubes
 
             public bool Moving { get => moving; set => moving = value; }
             public bool Tap { get => tap; set => tap = value; }
+            public bool TranslationStepForward { get => translationStepForward; set => translationStepForward = value; }
             public bool TranslationStepBackward { get => translationStepBackward; set => translationStepBackward = value; }
             public bool TranslationStepLeft { get => translationStepLeft; set => translationStepLeft = value; }
             public bool TranslationStepRight { get => translationStepRight; set => translationStepRight = value; }
