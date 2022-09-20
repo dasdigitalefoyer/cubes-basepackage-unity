@@ -17,6 +17,7 @@ namespace PuzzleCubes
 
             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
             public UnityEngine.Vector2 Position { get => position; set => position = value; }
+             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
             public UnityEngine.Vector2 Velocity { get => velocity; set => velocity = value; }
             public float AngularVelocity { get => angularVelocity; set => angularVelocity = value; }
             public float Orientation { get => orientation; set => orientation = value; }

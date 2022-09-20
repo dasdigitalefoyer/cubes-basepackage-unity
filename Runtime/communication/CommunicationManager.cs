@@ -93,7 +93,7 @@ namespace PuzzleCubes
                         NullValueHandling = NullValueHandling.Ignore,
                         TypeNameHandling = TypeNameHandling.Objects
                     });
-                    Debug.Log(json);
+//                    Debug.Log(json);
                     // Sending bytes
                     //await websocket.Send(new byte[] { 10, 20, 30 });
                     //await websocket.Send("Test");
