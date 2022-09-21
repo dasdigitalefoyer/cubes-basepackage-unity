@@ -10,6 +10,7 @@ namespace PuzzleCubes
         [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         public class WebSocketDatagram
         {
+            public string Id { get; set; } ="";
             public MetaData MetaData { get; set; } = new MetaData();
             public Notification? Notification { get; set; }
             public AppDatagram? AppDatagram { get; set; }
