@@ -10,12 +10,12 @@ namespace PuzzleCubes
         [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         public abstract class BaseData
         {
-            [UnityEngine.SerializeField] private DateTime dateTime = DateTime.Now;
+            [UnityEngine.SerializeField] private DateTime timestamp = DateTime.Now;
 
-            public DateTime DateTime
+            public DateTime Timestamp
             {
-                get { return dateTime; }
-                set { dateTime = value; }
+                get { return timestamp; }
+                set { timestamp = value; }
             }
 
         }
