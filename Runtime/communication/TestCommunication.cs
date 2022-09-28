@@ -8,8 +8,7 @@ namespace PuzzleCubes
     using Models;
     namespace Communication
     {
-        [RequireComponent(typeof(CommunicationManager))]
-        [RequireComponent(typeof(EventDispatcher))]
+       
         public class TestCommunication : MonoBehaviour
 
         {

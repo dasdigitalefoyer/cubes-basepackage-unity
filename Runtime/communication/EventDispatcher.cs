@@ -53,7 +53,7 @@ namespace PuzzleCubes
                 if (data.CubeState != null)
                     cubeStateEvent.Invoke(data.CubeState);
                 if (data.AppDatagram != null)
-                    appDatagramEvent.Invoke(data.AppDatagram);
+                    appDatagramEvent.Invoke(data.AppDatagram.ToString());
             }
 
        

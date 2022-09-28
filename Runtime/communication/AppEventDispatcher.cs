@@ -9,7 +9,7 @@ namespace PuzzleCubes
 
         public abstract class AppEventDispatcher : MonoBehaviour
         {
-            public abstract void HandleDatagram(AppDatagram data);
+            public abstract void HandleDatagram(string data);
         }
 
 
