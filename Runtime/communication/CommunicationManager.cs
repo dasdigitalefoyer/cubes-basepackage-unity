@@ -51,7 +51,11 @@ namespace PuzzleCubes
                     // getting the message as a string
                     var message = System.Text.Encoding.UTF8.GetString(bytes);
                     Debug.Log("OnMessage! " + message);
-                    WebSocketDatagram data = JsonConvert.DeserializeObject<WebSocketDatagram>(message);
+                    WebSocketDatagram data = JsonConvert.DeserializeObject<WebSocketDatagram>(message, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        TypeNameHandling = TypeNameHandling.Objects
+                    });
                     websocketEvent.Invoke(data);
                 };
 

@@ -9,6 +9,7 @@ namespace PuzzleCubes
         // [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         public abstract class AppDatagram : BaseData
         {
+            
             // [UnityEngine.SerializeField] private String type = "";
 
             // public String Type
