@@ -6,6 +6,7 @@ namespace PuzzleCubes
 
         using UnityEngine;
         using UnityEngine.Events;
+        using Newtonsoft.Json.Linq;
 
         [System.Serializable]
         public class NotificationEvent : UnityEvent<Notification>
@@ -13,7 +14,7 @@ namespace PuzzleCubes
         }
 
         [System.Serializable]
-        public class AppDatagramEvent : UnityEvent<string>
+        public class AppDatagramEvent : UnityEvent<JRaw>
         {
         }
 
