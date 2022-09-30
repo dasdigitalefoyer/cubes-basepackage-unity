@@ -14,7 +14,7 @@ namespace PuzzleCubes
         }
 
         [System.Serializable]
-        public class AppDatagramEvent : UnityEvent<JRaw>
+        public class AppDatagramEvent : UnityEvent<string>
         {
         }
 
