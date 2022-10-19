@@ -9,6 +9,8 @@ namespace PuzzleCubes
     using System.Collections;
 
 
+
+
     // using System.Net.WebSockets;
     // using System.Threading.Tasks;
     using Models;
@@ -76,12 +78,12 @@ namespace PuzzleCubes
             {
                 while(true)
                 {
-                    if(websocket.State == System.Net.WebSockets.WebSocketState.Closed || System.Net.WebSockets.WebSocketState.None || System.Net.WebSockets.WebSocketState.Aborted)
+                    if(websocket.State == NativeWebSockets.WebSocketState.Closed) 
                     {
                         Debug.Log("Trying to connect");
                         websocket.Connect();
                     }
-                    yield return new WaitForSeconds(3);
+                    yield return new WaitForSeconds(5);
                 }
             }
             async System.Threading.Tasks.Task ContinousConnect()
@@ -89,7 +91,7 @@ namespace PuzzleCubes
                 while (this!=null)
                 {
                     await websocket.Connect();
-                    await System.Threading.Tasks.Task.Delay(1000);
+                    //await System.Threading.Tasks.Task.Delay(1000);
                     
                     System.Threading.Tasks.Task.Yield();
                     Debug.Log("Reconnect");
