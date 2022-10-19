@@ -81,7 +81,7 @@ namespace PuzzleCubes
                 
                 while (true)
                 {
-                    if (websocket.State == NativeWebSockets.WebSocketState.Closed)
+                    if (websocket.State == NativeWebSocket.WebSocketState.Closed)
                     {
                         try
                         {
