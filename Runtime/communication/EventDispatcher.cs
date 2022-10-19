@@ -39,7 +39,7 @@ namespace PuzzleCubes
 
             public void HandleWebsocketEvent(WebSocketDatagram data)
             {
-                Debug.Log("handleWebsocketEvent!");
+                //Debug.Log("handleWebsocketEvent!");
                 if (data.Notification != null)                
                     notificationEvent.Invoke(data.Notification);
                 if (data.CubeControl != null)

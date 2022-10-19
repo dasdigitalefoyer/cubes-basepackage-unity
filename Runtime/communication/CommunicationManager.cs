@@ -7,6 +7,8 @@ using UnityEngine;
 namespace PuzzleCubes
 {
     using System.Collections;
+
+
     // using System.Net.WebSockets;
     // using System.Threading.Tasks;
     using Models;
@@ -48,12 +50,12 @@ namespace PuzzleCubes
 
                 websocket.OnMessage += (bytes) =>
                 {
-                    Debug.Log("OnMessage!");
+                    //Debug.Log("OnMessage!");
                     //    Debug.Log((string)bytes);
 
                     // getting the message as a string
                     var message = System.Text.Encoding.UTF8.GetString(bytes);
-                    Debug.Log("OnMessage! " + message);
+                    //Debug.Log("OnMessage! " + message);
                     WebSocketDatagram data = JsonConvert.DeserializeObject<WebSocketDatagram>(message, new JsonSerializerSettings
                     {
                         NullValueHandling = NullValueHandling.Ignore,
@@ -74,7 +76,7 @@ namespace PuzzleCubes
             {
                 while(true)
                 {
-                    if(websocket.State == WebSocketState.Closed)
+                    if(websocket.State == System.Net.WebSocketState.Closed || System.Net.WebSockets.WebSocketState.None || System.Net.WebSockets.WebSocketState.Aborted)
                     {
                         Debug.Log("Trying to connect");
                         websocket.Connect();
