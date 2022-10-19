@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace PuzzleCubes
 {
+    using System.Collections;
+    // using System.Net.WebSockets;
+    // using System.Threading.Tasks;
     using Models;
     namespace Communication
     {
@@ -61,18 +64,32 @@ namespace PuzzleCubes
 
                 // Keep sending messages at every 0.3s
                 //InvokeRepeating("SendWebSocketMessage", 0.0f, 1f);
-
-                // waiting for messages
-                await ContinousConnect();
+                StartCoroutine(ConnectContinuous());
+                // waiting for messages1
+                // await ContinousConnect();
                 Debug.Log("Start end!");
             }
-
+            
+            IEnumerator ConnectContinuous()
+            {
+                while(true)
+                {
+                    if(websocket.State == WebSocketState.Closed)
+                    {
+                        Debug.Log("Trying to connect");
+                        websocket.Connect();
+                    }
+                    yield return new WaitForSeconds(3);
+                }
+            }
             async System.Threading.Tasks.Task ContinousConnect()
             {
                 while (this!=null)
                 {
                     await websocket.Connect();
                     await System.Threading.Tasks.Task.Delay(1000);
+                    
+                    System.Threading.Tasks.Task.Yield();
                     Debug.Log("Reconnect");
                 }
 
