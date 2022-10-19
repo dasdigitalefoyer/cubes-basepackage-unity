@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace PuzzleCubes
 {
+    using System;
     using System.Collections;
 
 
@@ -73,26 +74,36 @@ namespace PuzzleCubes
                 // await ContinousConnect();
                 Debug.Log("Start end!");
             }
-            
+
             IEnumerator ConnectContinuous()
             {
-                while(true)
+
+                
+                while (true)
                 {
-                    if(websocket.State == NativeWebSockets.WebSocketState.Closed) 
+                    if (websocket.State == NativeWebSockets.WebSocketState.Closed)
                     {
-                        Debug.Log("Trying to connect");
-                        websocket.Connect();
+                        try
+                        {
+                            Debug.Log("Trying to connect");
+                            websocket.Connect();
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log("Could not connect");
+                        }
+
                     }
                     yield return new WaitForSeconds(5);
                 }
             }
             async System.Threading.Tasks.Task ContinousConnect()
             {
-                while (this!=null)
+                while (this != null)
                 {
                     await websocket.Connect();
                     //await System.Threading.Tasks.Task.Delay(1000);
-                    
+
                     System.Threading.Tasks.Task.Yield();
                     Debug.Log("Reconnect");
                 }
@@ -118,7 +129,7 @@ namespace PuzzleCubes
                         NullValueHandling = NullValueHandling.Ignore,
                         TypeNameHandling = TypeNameHandling.Objects
                     });
-//                    Debug.Log(json);
+                    //                    Debug.Log(json);
                     // Sending bytes
                     //await websocket.Send(new byte[] { 10, 20, 30 });
                     //await websocket.Send("Test");
@@ -130,7 +141,7 @@ namespace PuzzleCubes
 
             private async void OnApplicationQuit()
             {
-                if(websocket != null)
+                if (websocket != null)
                     await websocket.Close();
             }
         }
