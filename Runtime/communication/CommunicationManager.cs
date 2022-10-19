@@ -76,7 +76,7 @@ namespace PuzzleCubes
             {
                 while(true)
                 {
-                    if(websocket.State == System.Net.WebSocketState.Closed || System.Net.WebSockets.WebSocketState.None || System.Net.WebSockets.WebSocketState.Aborted)
+                    if(websocket.State == System.Net.WebSockets.WebSocketState.Closed || System.Net.WebSockets.WebSocketState.None || System.Net.WebSockets.WebSocketState.Aborted)
                     {
                         Debug.Log("Trying to connect");
                         websocket.Connect();
