@@ -38,7 +38,7 @@ namespace PuzzleCubes
 
             public string host = "pc-server";
             public string clientId = "";
-            public int port = 1893;
+            public int port = 1883;
 
             private IManagedMqttClient managedMqttClient = new MqttFactory().CreateManagedMqttClient();
            

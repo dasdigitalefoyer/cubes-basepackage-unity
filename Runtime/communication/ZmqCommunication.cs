@@ -41,6 +41,7 @@ namespace PuzzleCubes
 
             public void Start()
             {
+                Debug.Log("starting ZMQ");
                 receiveThread = new Thread((object queue) =>
                 {
                     using (var socket = new PullSocket())
@@ -70,8 +71,10 @@ namespace PuzzleCubes
 
             public void Stop()
             {
+                Debug.Log("stop ZMQ");
                 running = false;
                 receiveThread.Join(2000);
+                Debug.Log("ZMQ stopped");
             }
 
 
@@ -119,6 +122,7 @@ namespace PuzzleCubes
             private void OnApplicationQuit()
             {
                 Stop();
+                
             }
         }
     }
