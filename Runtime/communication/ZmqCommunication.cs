@@ -71,7 +71,7 @@ namespace PuzzleCubes
             public void Stop()
             {
                 running = false;
-                receiveThread.Join();
+                receiveThread.Join(2000);
             }
 
 

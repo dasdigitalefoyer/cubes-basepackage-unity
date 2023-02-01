@@ -21,7 +21,7 @@ namespace PuzzleCubes
 
             public RequestTestData? RequestTestData { get; set; }
 
-             [JsonConverter(typeof(JsonToStringConverter))]
+            [JsonConverter(typeof(JsonToStringConverter))]
             public string? AppDatagram { get; set;}
         }
     }
