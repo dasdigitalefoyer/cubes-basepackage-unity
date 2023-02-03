@@ -10,7 +10,9 @@ using UnityEngine;
 
 namespace PuzzleCubes
 {
+    using System;
     using System.Collections;
+    using System.Net.Sockets;
     using System.Threading;
     using Models;
 
@@ -29,51 +31,71 @@ namespace PuzzleCubes
             public JsonEvent jsonEvent;
 
 
-            public string host = "pc-server";
+            public string host = "localhost";
 
             public int port = 5555;
 
 
             private Thread receiveThread;
             private bool running;
-
-
+            PullSocket socket; // = new PullSocket();
+           
 
             public void Start()
             {
                 Debug.Log("starting ZMQ");
+                //Necessary line, not sure why.
+                // AsyncIO.ForceDotNet.Force();
+           
+            
+               
+                socket = new PullSocket();
+                socket.Connect($"tcp://{host}:{port}");
+           
                 receiveThread = new Thread((object queue) =>
                 {
-                    using (var socket = new PullSocket())
+                    
+                    AsyncIO.ForceDotNet.Force();
+                    using (socket = new PullSocket())
                     {
-                        socket.Connect("tcp://localhost:5555");
-                        
+                        socket.Connect($"tcp://{host}:{port}");
+                        running = true;
                         while (running)
                         {
                             // socket.SendFrameEmpty();
-                            string data = socket.ReceiveFrameString();
+                            // string data;
+                            if(socket.TryReceiveFrameString(System.TimeSpan.FromMilliseconds(10), out var data))
+                            {
+                                Debug.Log("got data: " + data);
+                                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
+                                if(result != null)
+                                    // pendingJsonDatagrams.Enqueue(result);
+                                    (queue as ConcurrentQueue<JsonDatagram>).Enqueue(result);
+                            }
                             //  var data = System.Text.Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
 
-                            Debug.Log("got data: " + data);
-                            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
-                            if(result != null)
-                                // pendingJsonDatagrams.Enqueue(result);
-                                (queue as ConcurrentQueue<JsonDatagram>).Enqueue(result);
+                            
                             
                         }
+                        socket.Close();
+                        NetMQConfig.Cleanup();
                     }
                 });
-                running = true;
-                receiveThread.Start(this.pendingJsonDatagrams);
+                
+                // receiveThread.Start(this.pendingJsonDatagrams);
 
-                StartCoroutine(ProcessEventQueue());
+                // StartCoroutine(ProcessEventQueue());
             }
 
             public void Stop()
             {
                 Debug.Log("stop ZMQ");
                 running = false;
-                receiveThread.Join(2000);
+                // receiveThread.Join();
+                // socket.Close();
+                // NetMQConfig.Cleanup();
+                // NetMQConfig.Cleanup();
+
                 Debug.Log("ZMQ stopped");
             }
 
@@ -100,13 +122,36 @@ namespace PuzzleCubes
 
 
             // Start is called before the first frame update
-
+            void Update()
+            {
+                // string data;
+                int maxMessages = 0;
+                while(socket.TryReceiveFrameString(out var data) && maxMessages < 20)
+                {
+                    Debug.Log("TryReceiveFrameString: " + data);
+                    try
+                    {
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
+                        if(result != null)
+                            jsonEvent.Invoke(result);
+                            // pendingJsonDatagrams.Enqueue(result);
+                        
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.LogError(e.Message);
+                    }
+                    maxMessages++;
+                }
+                    
+            }
            
 
             IEnumerator ProcessEventQueue()
             {
                 while (true)
                 {
+                   
                     JsonDatagram jd;
                     while (pendingJsonDatagrams.TryDequeue(out jd))
                     {
@@ -121,7 +166,13 @@ namespace PuzzleCubes
 
             private void OnApplicationQuit()
             {
-                Stop();
+               
+                if(receiveThread != null && receiveThread.IsAlive)
+                    Stop();
+                
+                socket.Dispose();
+                NetMQConfig.Cleanup();
+                
                 
             }
         }
