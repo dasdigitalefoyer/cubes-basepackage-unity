@@ -68,6 +68,7 @@ namespace PuzzleCubes
                     string className = t.Key.Name;
                     string jsonKey = char.ToLower(className[0]) + className.Substring(1);
                     // Debug.Log("checking:" + className + " -> " + jsonKey);
+                    
                     if(data.TokenData.ContainsKey(jsonKey))
                     {
                         Debug.Log("found:" + className + " -> " + jsonKey + " in TokenData");
