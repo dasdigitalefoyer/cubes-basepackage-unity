@@ -47,15 +47,28 @@ namespace PuzzleCubes
             public bool? Tilt { get => tilt; set => tilt = value; }
 
             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
-            public Vector2? Position { get => position; set => position = value; }
-            public float? Orientation { get => orientation; set => orientation = value; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public Vector2 Position { get => position; set => position = value; }
+            public float Orientation { get => orientation; set => orientation = value; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
+<<<<<<< .mine
+            public Vector2 Velocity { get => velocity; set => velocity = value; }
+            
+            public float AngularVelocity { get => angularVelocity; set => angularVelocity = value; }
+            public float PositionConfidence { get => positionConfidence; set => positionConfidence = value; }
+            public float OrientationConfidence { get => orientationConfidence; set => orientationConfidence = value; }
+            public float VelocityConfidence { get => velocityConfidence; set => velocityConfidence = value; }
+            public float AngularVelocityConfidence { get => angularVelocityConfidence; set => angularVelocityConfidence = value; }
+=======
             public Vector2? Velocity { get => velocity; set => velocity = value; }
             public float? AngularVelocity { get => angularVelocity; set => angularVelocity = value; }
             public float? PositionConfidence { get => positionConfidence; set => positionConfidence = value; }
             public float? OrientationConfidence { get => orientationConfidence; set => orientationConfidence = value; }
             public float? VelocityConfidence { get => velocityConfidence; set => velocityConfidence = value; }
             public float? AngularVelocityConfidence { get => angularVelocityConfidence; set => angularVelocityConfidence = value; }
+
+>>>>>>> .theirs
         }
     }
 
