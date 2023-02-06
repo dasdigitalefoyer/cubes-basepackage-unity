@@ -20,7 +20,7 @@ namespace PuzzleCubes
             [UnityEngine.SerializeField] private float? angularVelocityConfidence = 0;
 
 
-            [UnityEngine.SerializeField] private bool? moving = false;
+            [UnityEngine.SerializeField] private bool? moving = null;
             [UnityEngine.SerializeField] private bool? tap = false;
 
             [UnityEngine.SerializeField] private bool? tilt = false;
