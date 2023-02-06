@@ -48,8 +48,8 @@ namespace PuzzleCubes
 
             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public Vector2 Position { get => position; set => position = value; }
-            public float Orientation { get => orientation; set => orientation = value; }
+            public Vector2? Position { get => position; set => position = value; }
+            public float? Orientation { get => orientation; set => orientation = value; }
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             [JsonConverter(typeof(helper.json.JsonVector2Converter))]
             public Vector2? Velocity { get => velocity; set => velocity = value; }
