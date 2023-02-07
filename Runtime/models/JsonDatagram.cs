@@ -14,25 +14,38 @@ namespace PuzzleCubes
             [JsonExtensionData]
             public IDictionary<string,JToken> TokenData {get;set;}
 
-            // public static JsonDatagram Create(List<BaseData> items)
-            // {
-            //     JsonDatagram datagram = new JsonDatagram();
+            public static JsonDatagram CreateFrom(List<BaseData> items)
+            {
+                JsonDatagram datagram = new JsonDatagram();
 
-            //     foreach(BaseData d in items)
-            //     {
-            //         string className = d.GetType().Name;
-            //         string jsonKey = char.ToLower(className[0]) + className.Substring(1);
-            //         var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
-            //         {
-            //             NullValueHandling = NullValueHandling.Ignore,
-            //             TypeNameHandling = TypeNameHandling.Objects
-            //         });
+                foreach(BaseData d in items)
+                {
+                    string className = d.GetType().Name;
+                    string jsonKey = char.ToLower(className[0]) + className.Substring(1);
+                    JToken t = JToken.FromObject(d);
                   
-            //         datagram.TokenData.Add(jsonKey, json);
+                    datagram.TokenData.Add(jsonKey, t);
 
-            //     }
-            //     return datagram;
-            // }
+                }
+                return datagram;
+
+              
+            }
+
+            public static JsonDatagram CreateFrom(BaseData data)
+            {
+                JsonDatagram datagram = new JsonDatagram();
+
+                
+                string className = data.GetType().Name;
+                string jsonKey = char.ToLower(className[0]) + className.Substring(1);
+                JToken t = JToken.FromObject(data);
+                
+                datagram.TokenData.Add(jsonKey, t);
+                return datagram;
+
+              
+            }
         }
     }
 }
