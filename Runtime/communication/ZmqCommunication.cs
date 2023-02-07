@@ -18,7 +18,7 @@ namespace PuzzleCubes
 
     // using Newtonsoft.Json.Serialization;
 
-    namespace ZmqCommunication
+    namespace Communication
     {
 
 

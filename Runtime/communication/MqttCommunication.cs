@@ -19,7 +19,7 @@ namespace PuzzleCubes
     // using MQTTnet.Server;
     // using Newtonsoft.Json.Serialization;
 
-    namespace MqttCommunication
+    namespace Communication
     {
 
         public class MqttCommunication : MonoBehaviour
