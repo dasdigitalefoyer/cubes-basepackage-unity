@@ -129,30 +129,17 @@ namespace PuzzleCubes
             public async void Send(string topic, JsonDatagram data, MqttQualityOfServiceLevel qualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce, bool retain = false)
             {
                 Debug.Log("Send to MQTT");
-                await managedMqttClient.EnqueueAsync(topic, data.ToString(),qualityOfServiceLevel, retain);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        TypeNameHandling = TypeNameHandling.Objects
+                    });
+                await managedMqttClient.EnqueueAsync(topic, json,qualityOfServiceLevel, retain);
                 
             }
 
        
-            // public async void SendWebSocketMessage(WebSocketDatagram datagram)
-            // {
-            //     Debug.Log("SendWebSocketMessage");
-            //     if (websocket.State == WebSocketState.Open)
-            //     {
-            //         var json = JsonConvert.SerializeObject(datagram, Formatting.Indented, new JsonSerializerSettings
-            //         {
-            //             NullValueHandling = NullValueHandling.Ignore,
-            //             TypeNameHandling = TypeNameHandling.Objects
-            //         });
-            //         Debug.Log(json);
-            //         // Sending bytes
-            //         //await websocket.Send(new byte[] { 10, 20, 30 });
-            //         //await websocket.Send("Test");
-
-            //         // Sending plain text
-            //         await websocket.SendText(json);
-            //     }
-            // }
+         
 
             private async void OnApplicationQuit()
             {
