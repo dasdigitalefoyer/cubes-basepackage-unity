@@ -10,6 +10,7 @@ using MQTTnet.Protocol;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using MQTTnet.Extensions.ManagedClient;
+using PuzzleCubes.Config;
 
 namespace PuzzleCubes
 {
@@ -24,12 +25,7 @@ namespace PuzzleCubes
 
         public class MqttCommunication : MonoBehaviour
         {
-            class Topic
-            {
-                public static string globalAppState = "puzzleCubes/app";
-                public static string dedicatedAppState(string name) { return $"puzzleCubes/{name}/app"; }
-               
-            }
+          
 
             ConcurrentQueue<JsonDatagram> pendingJsonDatagrams = new ConcurrentQueue<JsonDatagram>();
             
@@ -45,7 +41,9 @@ namespace PuzzleCubes
             public async Task Connect()
             {
                 if(clientId.Equals(""))
-                    clientId = SystemInfo.deviceName;
+                    clientId = App.cubeId;
+               
+
                 
                 // var mqttFactory = new MqttFactory();
 
@@ -53,7 +51,7 @@ namespace PuzzleCubes
                 {
                     var mqttClientOptions = new MqttClientOptionsBuilder()
                         .WithTcpServer(host, port)
-                        .WithClientId(SystemInfo.deviceName)
+                        .WithClientId(clientId)
                         .Build();
 
                     var managedMqttClientOptions = new ManagedMqttClientOptionsBuilder()
@@ -63,8 +61,8 @@ namespace PuzzleCubes
                     await managedMqttClient.StartAsync(managedMqttClientOptions);
 
                     // await managedMqttClient.SubscribeAsync("test");
-                    await managedMqttClient.SubscribeAsync(Topic.globalAppState);
-                    await managedMqttClient.SubscribeAsync(Topic.dedicatedAppState(this.clientId));
+                    await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateTopic());
+                    await managedMqttClient.SubscribeAsync(App.GetDedicatedAppStateTopic(clientId));
                    
                     
 
@@ -73,7 +71,7 @@ namespace PuzzleCubes
                     managedMqttClient.ApplicationMessageReceivedAsync +=  async (args) => 
                     {
                     //    Debug.Log("got mqtt message: " +args.ToString());
-                        if(args.ApplicationMessage.Topic.Equals(Topic.globalAppState) || (args.ApplicationMessage.Topic.Equals(Topic.dedicatedAppState(this.clientId)) ) )
+                        if(args.ApplicationMessage.Topic.Equals(App.GetGlobalAppStateTopic()) || (args.ApplicationMessage.Topic.Equals(App.GetDedicatedAppStateTopic(this.clientId)) ) )
                         {
                             var data = System.Text.Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
 
