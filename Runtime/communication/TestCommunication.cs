@@ -13,7 +13,7 @@ namespace PuzzleCubes
 
         {
 
-            public CommunicationManager communication;
+            public WebSocketCommunication communication;
             public EventDispatcher dispatcher;
             public enum DataType
             {
@@ -69,7 +69,7 @@ namespace PuzzleCubes
             void Start()
             {
                 Debug.Log("Start");
-                communication = GetComponent<CommunicationManager>();
+                communication = GetComponent<WebSocketCommunication>();
                 dispatcher = GetComponent<EventDispatcher>();
 
             }

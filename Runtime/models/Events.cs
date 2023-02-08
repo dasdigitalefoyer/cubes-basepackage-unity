@@ -24,6 +24,11 @@ namespace PuzzleCubes
         }
 
         [System.Serializable]
+        public class JsonEvent : UnityEvent<JsonDatagram>
+        {
+        }
+
+        [System.Serializable]
         public class CubeControlEvent : UnityEvent<CubeControl>
         {
         }

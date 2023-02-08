@@ -8,7 +8,7 @@ namespace PuzzleCubes
 {
     using System;
     using System.Collections;
-
+    using System.Threading.Tasks;
 
 
 
@@ -18,7 +18,7 @@ namespace PuzzleCubes
     namespace Communication
     {
 
-        public class CommunicationManager : MonoBehaviour
+        public class WebSocketCommunication : MonoBehaviour
         {
             WebSocket websocket;
 
@@ -41,6 +41,7 @@ namespace PuzzleCubes
                 // waiting for messages1
                 // await ContinousConnect();
                 Debug.Log("Start end!");
+                await  Task.CompletedTask;
             }
 
             IEnumerator ConnectContinuous()
