@@ -38,7 +38,7 @@ namespace PuzzleCubes
 
             private Thread receiveThread;
             private bool running;
-            PullSocket socket; // = new PullSocket();
+            PairSocket socket; // = new PullSocket();
            
 
             public void Start()
@@ -56,7 +56,7 @@ namespace PuzzleCubes
                 {
                     
                     AsyncIO.ForceDotNet.Force();
-                    using (socket = new PullSocket())
+                    using (socket = new PairSocket())
                     {
                         socket.Connect($"tcp://{host}:{port}");
                         running = true;

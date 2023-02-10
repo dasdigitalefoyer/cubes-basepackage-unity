@@ -10,7 +10,7 @@ using MQTTnet.Protocol;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using MQTTnet.Extensions.ManagedClient;
-using PuzzleCubes.Config;
+// using PuzzleCubes.Config;
 
 namespace PuzzleCubes
 {
@@ -28,8 +28,10 @@ namespace PuzzleCubes
           
 
             ConcurrentQueue<JsonDatagram> pendingJsonDatagrams = new ConcurrentQueue<JsonDatagram>();
+            ConcurrentQueue<MqttApplicationMessage> pendingMqttMessages = new ConcurrentQueue<MqttApplicationMessage>();
             
-            public JsonEvent jsonEvent;
+            // public JsonEvent jsonEvent;
+            public MqttEvent mqttEvent;
 
 
             public string host = "pc-server";
@@ -40,14 +42,11 @@ namespace PuzzleCubes
            
             public async Task Connect()
             {
-                if(clientId.Equals(""))
-                    clientId = App.cubeId;
+                // if(clientId.Equals(""))
+                //     clientId = App.cubeId;
                
-
-                
-                // var mqttFactory = new MqttFactory();
-
-                // using (var managedMqttClient = mqttFactory.CreateManagedMqttClient())
+               
+           
                 {
                     var mqttClientOptions = new MqttClientOptionsBuilder()
                         .WithTcpServer(host, port)
@@ -61,27 +60,34 @@ namespace PuzzleCubes
                     await managedMqttClient.StartAsync(managedMqttClientOptions);
 
                     // await managedMqttClient.SubscribeAsync("test");
-                    await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateTopic());
-                    await managedMqttClient.SubscribeAsync(App.GetDedicatedAppStateTopic(clientId));
+                    // await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateTopic());
+                    // await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateWildcardTopic());
+                    // await managedMqttClient.SubscribeAsync(App.GetDedicatedAppStateTopic(clientId));
                    
                     
 
               
                     
-                    managedMqttClient.ApplicationMessageReceivedAsync +=  async (args) => 
+                    managedMqttClient.ApplicationMessageReceivedAsync +=  async (  args) => 
                     {
-                    //    Debug.Log("got mqtt message: " +args.ToString());
-                        if(args.ApplicationMessage.Topic.Equals(App.GetGlobalAppStateTopic()) || (args.ApplicationMessage.Topic.Equals(App.GetDedicatedAppStateTopic(this.clientId)) ) )
-                        {
-                            var data = System.Text.Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
+                        // MqttTopicFilterCompareResult r = MqttTopicFilterComparer.Compare(args.ApplicationMessage.Topic,App.GetGlobalAppStateWildcardTopic() );
+                        // Debug.Log(r);
+                        
+                        
+                         pendingMqttMessages.Enqueue(args.ApplicationMessage);
+                       
+                    // //    Debug.Log("got mqtt message: " +args.ToString());
+                    //     if(args.ApplicationMessage.Topic.Equals(App.GetGlobalAppStateTopic()) || (args.ApplicationMessage.Topic.Equals(App.GetDedicatedAppStateTopic(this.clientId)) ) )
+                    //     {
+                    //         var data = System.Text.Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
 
-                            Debug.Log("appState: " + data);
-                            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
-                            if(result != null)
-                                pendingJsonDatagrams.Enqueue(result);
+                    //         Debug.Log("appState: " + data);
+                    //         var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
+                    //         if(result != null)
+                    //             pendingJsonDatagrams.Enqueue(result);
                             
                                 
-                        }
+                    //     }
                         await  Task.CompletedTask;
                                                 
                     };
@@ -102,11 +108,20 @@ namespace PuzzleCubes
                 }
             }
 
+            public async void Initialize(string id)
+            {
+                this.clientId = id;
+                
+                await this.Connect();
+                StartCoroutine(ProcessEventQueue());
+                await Task.CompletedTask;
+            }
+
             // Start is called before the first frame update
             async void Start()
             {
-                await Connect();
-                StartCoroutine(ProcessEventQueue());
+                // await Connect();
+                // StartCoroutine(ProcessEventQueue());
               
                 await Task.CompletedTask;
            
@@ -116,11 +131,17 @@ namespace PuzzleCubes
             {
                 while(true)
                 {
-                    JsonDatagram jd;
-                    while(pendingJsonDatagrams.TryDequeue(out jd))
+                //     JsonDatagram jd;
+                //     while(pendingJsonDatagrams.TryDequeue(out jd))
+                //     {
+                //         jsonEvent.Invoke(jd);
+                //     }
+                    while(pendingMqttMessages.TryDequeue(out var message))
                     {
-                        jsonEvent.Invoke(jd);
+                        if(mqttEvent != null)
+                            mqttEvent.Invoke(message);
                     }
+                    
                     yield return new WaitForEndOfFrame();
                 }
                
@@ -134,7 +155,17 @@ namespace PuzzleCubes
                         NullValueHandling = NullValueHandling.Ignore,
                         TypeNameHandling = TypeNameHandling.Objects
                     });
+                
                 await managedMqttClient.EnqueueAsync(topic, json,qualityOfServiceLevel, retain);
+                
+            }
+
+            public async void Send(MqttApplicationMessage message)
+            {
+                Debug.Log("Send to MQTT");
+               
+                
+                await managedMqttClient.EnqueueAsync(message);
                 
             }
 

@@ -9,7 +9,7 @@ namespace PuzzleCubes
 {
    
     using Models;
-
+    using MQTTnet;
     using UnityEngine.Events;
 
     namespace Communication
@@ -17,6 +17,11 @@ namespace PuzzleCubes
         // [RequireComponent(typeof(CommunicationManager))]
         public class EventDispatcher : MonoBehaviour
         {
+        //      public static string GetGlobalAppStateTopic() { return "puzzleCubes/app";}
+        // public static string GetGlobalAppStateWildcardTopic() { return "puzzleCubes/app/#";}
+        // public static string GetDedicatedAppStateTopic(string name ) { return $"puzzleCubes/{cubeId}/app";}
+
+            Dictionary<string, Action<BaseData>> topicToActionMap;
 
 
             protected IDictionary<Type, Action<EventDispatcher, object>> jsonTypeToEventMap 
@@ -35,12 +40,21 @@ namespace PuzzleCubes
 
             protected virtual void Initialize()
             {
-                
+                topicToActionMap =new Dictionary<string, Action<BaseData>>()
+                {
+                    {"puzzleCubes/app", this.HandleAppEvent},
+                    {"puzzleCubes/app/+", this.HandleAppEvent}
+                };
             }
 
             void Start()
             {
                 Initialize();
+            }
+
+            virtual protected void HandleAppEvent(BaseData data)
+            {
+
             }
 
             public void HandleWebsocketEvent(WebSocketDatagram data)
@@ -88,6 +102,11 @@ namespace PuzzleCubes
 
                 }
             
+            }
+            public void HandleMqttEvent(MqttApplicationMessage message)
+            {
+
+                Debug.Log("HandleJsonEvent");
             }
         }
     }
