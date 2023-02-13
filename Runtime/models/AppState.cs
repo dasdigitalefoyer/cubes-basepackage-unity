@@ -1,3 +1,5 @@
+
+
 namespace PuzzleCubes.Models
 {
 
@@ -7,6 +9,7 @@ namespace PuzzleCubes.Models
     {
         
         [UnityEngine.SerializeField] private string appName = "<APP>";
+
         [UnityEngine.SerializeField] private string cubeId;
         [UnityEngine.SerializeField] private bool isRunning;
 
