@@ -13,13 +13,15 @@ namespace PuzzleCubes
     using UnityEngine.Events;
      using Newtonsoft.Json;
     using MQTTnet.Packets;
+    using PuzzleCubes.Controller;
 
     namespace Communication
     {
         // [RequireComponent(typeof(CommunicationManager))]
         public class EventDispatcher : MonoBehaviour
         {
-            public static string appStateTopic =  "puzzleCubes/app/state";
+            // public static string appStateTopic =  "puzzleCubes/app/state";
+            public string appStateTopic(string cubeId) =>  $"puzzleCubes/{cubeId}/app/state";
             // public static string appSubTopics = "puzzleCubes/app/+";
             public string dedicatedAppTopicPrefix(string cubeId) =>  $"puzzleCubes/{cubeId}/app/";
 
@@ -47,6 +49,7 @@ namespace PuzzleCubes
 
             public MqttCommunication mqttCommunication;
             public ZmqCommunication zmqCommunication;
+            public AppController appController;
 
             protected AppState appState;
             protected virtual void Initialize()
@@ -73,6 +76,8 @@ namespace PuzzleCubes
                     mqttCommunication = GameObject.FindObjectOfType<MqttCommunication>();
                 if(zmqCommunication == null)
                     zmqCommunication = GameObject.FindObjectOfType<ZmqCommunication>();
+                if(appController == null)
+                    appController = GameObject.FindObjectOfType<AppController>();
           
                 Initialize();
                 PostInitialize();
@@ -133,7 +138,7 @@ namespace PuzzleCubes
             public void DispatchAppStateEvent(AppState state)
             {
                 Debug.Log("HandleStateEvent");
-                appState = state;
+                // appState = state;
                 // JsonDatagram jd = JsonDatagram.CreateFrom(state);
                 var json = JsonConvert.SerializeObject(state, Formatting.Indented, new JsonSerializerSettings
                     {
@@ -142,14 +147,17 @@ namespace PuzzleCubes
                     });
                 // this.SendZmq(json, true);  
                 var msg = new MqttApplicationMessage();
-                msg.Topic = appStateTopic;
+                msg.Topic = appStateTopic(appController.state.CubeId);
                 msg.Payload = System.Text.Encoding.UTF8.GetBytes(json);
+                msg.MessageExpiryInterval = 3600;
+                msg.Retain = true;
                 
                 this.mqttCommunication.Send(msg); 
                 
                 
             }
 
+            
 
 
             protected void SendZmq(string message, bool enqueue = false)

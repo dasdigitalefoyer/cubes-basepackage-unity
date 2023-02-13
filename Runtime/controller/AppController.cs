@@ -11,7 +11,7 @@ namespace PuzzleCubes.Controller
 
     public class AppController : MonoBehaviour
     {
-        protected AppState state = new AppState();
+        public  AppState state = new AppState();
         public AppStateEvent stateEvent;
 
         public MqttCommunication mqttCommunication;
