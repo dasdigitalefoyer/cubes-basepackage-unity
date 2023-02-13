@@ -12,6 +12,7 @@ namespace PuzzleCubes
     using MQTTnet;
     using UnityEngine.Events;
      using Newtonsoft.Json;
+    using MQTTnet.Packets;
 
     namespace Communication
     {
@@ -23,6 +24,8 @@ namespace PuzzleCubes
             public string dedicatedAppTopicPrefix(string cubeId) =>  $"puzzleCubes/{cubeId}/app/";
 
         
+            protected IDictionary<MqttTopicFilter, MqttActions.Message> subscriptions 
+                = new Dictionary<MqttTopicFilter, MqttActions.Message> (  );
 
             protected IDictionary<Type, Action<EventDispatcher, object>> jsonTypeToEventMap 
                 = new Dictionary<Type, Action<EventDispatcher, object>> (  )
@@ -48,7 +51,10 @@ namespace PuzzleCubes
             public AppState appState;
             protected virtual void Initialize()
             {
-               mqttCommunication.Subscribe("test", HandleTest );
+            //    mqttCommunication.Subscribe("test", HandleTest );
+                subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
+
+                mqttCommunication.Subscribe(subscriptions);
             }
 
             protected void HandleTest(MqttApplicationMessage msg, IList<string> wildcardItem){

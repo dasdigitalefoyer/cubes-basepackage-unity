@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using MQTTnet.Client;
 using MQTTnet;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -48,6 +49,17 @@ namespace PuzzleCubes
             {
                  await managedMqttClient.SubscribeAsync(topic);
                  this.subscriptions.Add(topic,a);
+            }
+            public async void Subscribe(MqttTopicFilter topicFilter, MqttActions.Message a)
+            {
+                 await managedMqttClient.SubscribeAsync(new List<MqttTopicFilter>(){topicFilter});
+                 this.subscriptions.Add(topicFilter.Topic,a);
+            }
+            public async void Subscribe(IDictionary< MqttTopicFilter, MqttActions.Message>  topicFilter)
+            {
+                 await managedMqttClient.SubscribeAsync(topicFilter);
+                 foreach(var kvp in topicFilter)
+                    this.subscriptions.Add(kvp.Key.Topic,kvp.Value);
             }
             public async Task Connect()
             {
