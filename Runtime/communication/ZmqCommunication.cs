@@ -25,7 +25,7 @@ namespace PuzzleCubes
         public class ZmqCommunication : MonoBehaviour
         {
 
-
+            private Queue<string> outgoingMessages = new Queue<string>();
             ConcurrentQueue<JsonDatagram> pendingJsonDatagrams = new ConcurrentQueue<JsonDatagram>();
 
             public JsonEvent jsonEvent;
@@ -44,14 +44,8 @@ namespace PuzzleCubes
             public void Start()
             {
                 Debug.Log("starting ZMQ");
-                //Necessary line, not sure why.
-                // AsyncIO.ForceDotNet.Force();
-           
+                
             
-               
-                // socket = new PullSocket();
-                // socket.Connect($"tcp://{host}:{port}");
-           
                 receiveThread = new Thread((object queue) =>
                 {
                     
@@ -118,29 +112,52 @@ namespace PuzzleCubes
                     JsonDatagram jd;
                     while (pendingJsonDatagrams.TryDequeue(out jd))
                     {
-                        Debug.Log(jd);
+                        // Debug.Log(jd);
                         jsonEvent.Invoke(jd);
+                    }
+                    while (socket != null && outgoingMessages.TryDequeue(out var m))
+                    {
+                        
+                        socket.SendFrame(m);
                     }
                     yield return new WaitForEndOfFrame();
                 }
 
             }
 
-            void OnDestroy()
-            {
+            // void OnDestroy()
+            // {
 
-                if(receiveThread != null && receiveThread.IsAlive)
-                    Stop();
-            }
+            //     if(receiveThread != null && receiveThread.IsAlive)
+            //         Stop();
+            // }
 
-            private void OnApplicationQuit()
+            private void OnDestroy()
             {
                 if(receiveThread != null && receiveThread.IsAlive)
                     Stop();
                
-          
+
                 
+            }
+
+           
+            public async void Send(string message , bool enqueue = false)
+            {
                 
+               
+                if(socket != null)
+                {
+                    Debug.Log("Send to ZMQ");
+                    socket.SendFrame(message);
+                }
+                else if(enqueue)
+                {
+                    outgoingMessages.Enqueue(message);
+                }
+                    
+                await Task.CompletedTask;
+            
             }
         }
     }

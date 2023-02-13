@@ -6,6 +6,9 @@ namespace PuzzleCubes.Controller
     using PuzzleCubes.Models;
     using UnityEngine;
     using System.Threading.Tasks;
+   
+    using System.Collections;
+
     class AppController: MonoBehaviour
     {
         public Models.AppState state;
@@ -15,24 +18,44 @@ namespace PuzzleCubes.Controller
 
 
 
-        
-
         void Awake()
         {
             state.CubeId = SystemInfo.deviceName;
-           
+            state.IsRunning = true;
 
-            if(stateEvent != null)
-                stateEvent.Invoke(state);
+            
         }
 
         async void Start()
         {
             if(mqttCommunication == null)
                 mqttCommunication = GameObject.FindObjectOfType<MqttCommunication>();
+         
             mqttCommunication.Initialize( state.CubeId);
+            
+            StartCoroutine(DispatchState());
             await Task.CompletedTask;
+
         }
+
+        IEnumerator DispatchState()
+        {
+            yield return new WaitForEndOfFrame();
+            if(stateEvent != null)
+                stateEvent.Invoke(state);
+        }
+
+        void OnApplicationQuit()
+        {
+            Debug.Log("AppController::OnApplicationQuit");
+            state.IsRunning = false;
+            if(stateEvent != null)
+                stateEvent.Invoke(state);
+        }
+
+
+
+       
     }
 
    

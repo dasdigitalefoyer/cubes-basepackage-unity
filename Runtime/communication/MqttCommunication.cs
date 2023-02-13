@@ -17,6 +17,8 @@ namespace PuzzleCubes
     using System.Collections;
     using System.Threading;
     using Models;
+    using UnityEngine.Networking.PlayerConnection;
+
     // using MQTTnet.Server;
     // using Newtonsoft.Json.Serialization;
 
@@ -29,9 +31,10 @@ namespace PuzzleCubes
 
             ConcurrentQueue<JsonDatagram> pendingJsonDatagrams = new ConcurrentQueue<JsonDatagram>();
             ConcurrentQueue<MqttApplicationMessage> pendingMqttMessages = new ConcurrentQueue<MqttApplicationMessage>();
+            Dictionary<string, MqttActions.Message> subscriptions = new Dictionary<string, MqttActions.Message>();
             
             // public JsonEvent jsonEvent;
-            public MqttEvent mqttEvent;
+            // public MqttEvent mqttEvent;
 
 
             public string host = "pc-server";
@@ -40,6 +43,12 @@ namespace PuzzleCubes
 
             private IManagedMqttClient managedMqttClient = new MqttFactory().CreateManagedMqttClient();
            
+
+            public async void Subscribe(string topic, MqttActions.Message a)
+            {
+                 await managedMqttClient.SubscribeAsync(topic);
+                 this.subscriptions.Add(topic,a);
+            }
             public async Task Connect()
             {
                 // if(clientId.Equals(""))
@@ -138,8 +147,16 @@ namespace PuzzleCubes
                 //     }
                     while(pendingMqttMessages.TryDequeue(out var message))
                     {
-                        if(mqttEvent != null)
-                            mqttEvent.Invoke(message);
+                        foreach(var kvp in subscriptions)
+                        {
+                            if(MqttTopicFilterComparer.Compare(message.Topic,kvp.Key) == MqttTopicFilterCompareResult.IsMatch)
+                            {
+                                kvp.Value( message, null);
+                            }
+                            
+                        }
+                        // if(mqttEvent != null)
+                        //     mqttEvent.Invoke(message);
                     }
                     
                     yield return new WaitForEndOfFrame();
@@ -172,7 +189,7 @@ namespace PuzzleCubes
        
          
 
-            private async void OnApplicationQuit()
+            private async void OnDestroy()
             {
                 Debug.Log("Stopping MqttClient");
                 await managedMqttClient.StopAsync();

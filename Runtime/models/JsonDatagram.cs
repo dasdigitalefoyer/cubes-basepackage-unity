@@ -11,8 +11,9 @@ namespace PuzzleCubes
         [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         public class JsonDatagram
         {
+            IDictionary<string,JToken> tokenData = new Dictionary<string,JToken>();
             [JsonExtensionData]
-            public IDictionary<string,JToken> TokenData {get;set;}
+            public IDictionary<string, JToken> TokenData { get => tokenData; set => tokenData = value; }
 
             public static JsonDatagram CreateFrom(List<BaseData> items)
             {
