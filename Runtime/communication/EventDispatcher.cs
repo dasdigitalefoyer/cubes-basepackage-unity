@@ -54,6 +54,12 @@ namespace PuzzleCubes
             //    mqttCommunication.Subscribe("test", HandleTest );
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
 
+
+            }
+            protected virtual void PostInitialize()
+            {
+          
+
                 mqttCommunication.Subscribe(subscriptions);
             }
 
@@ -69,6 +75,7 @@ namespace PuzzleCubes
                     zmqCommunication = GameObject.FindObjectOfType<ZmqCommunication>();
           
                 Initialize();
+                PostInitialize();
             }
 
             public void HandleWebsocketEvent(WebSocketDatagram data)
