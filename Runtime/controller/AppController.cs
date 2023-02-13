@@ -39,7 +39,7 @@ namespace PuzzleCubes.Controller
             if(mqttCommunication == null)
                 mqttCommunication = GameObject.FindObjectOfType<MqttCommunication>();
          
-            mqttCommunication.Initialize( state.CubeId);
+            mqttCommunication.Initialize( state.CubeId + "." + state.AppName);
             
             StartCoroutine(DispatchState());
             await Task.CompletedTask;
