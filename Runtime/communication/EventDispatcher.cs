@@ -127,8 +127,8 @@ namespace PuzzleCubes
             {
                 Debug.Log("HandleStateEvent");
                 appState = state;
-                JsonDatagram jd = JsonDatagram.CreateFrom(state);
-                 var json = JsonConvert.SerializeObject(jd, Formatting.Indented, new JsonSerializerSettings
+                // JsonDatagram jd = JsonDatagram.CreateFrom(state);
+                var json = JsonConvert.SerializeObject(state, Formatting.Indented, new JsonSerializerSettings
                     {
                         NullValueHandling = NullValueHandling.Ignore,
                         TypeNameHandling = TypeNameHandling.Objects
