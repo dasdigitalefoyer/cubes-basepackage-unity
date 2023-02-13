@@ -9,9 +9,9 @@ namespace PuzzleCubes.Controller
    
     using System.Collections;
 
-    public class AppController: MonoBehaviour
+    public class AppController : MonoBehaviour
     {
-        protected Models.AppState state;
+        protected AppState state = new AppState();
         public AppStateEvent stateEvent;
 
         public MqttCommunication mqttCommunication;
@@ -25,6 +25,8 @@ namespace PuzzleCubes.Controller
 
             
         }
+
+       
 
         protected virtual void Initialize()
         {
