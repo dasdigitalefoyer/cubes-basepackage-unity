@@ -26,8 +26,14 @@ namespace PuzzleCubes.Controller
             
         }
 
+        protected virtual void Initialize()
+        {
+
+        }
+
         async void Start()
         {
+            Initialize();
             if(mqttCommunication == null)
                 mqttCommunication = GameObject.FindObjectOfType<MqttCommunication>();
          
@@ -38,7 +44,7 @@ namespace PuzzleCubes.Controller
 
         }
 
-        IEnumerator DispatchState()
+        protected IEnumerator DispatchState()
         {
             yield return new WaitForEndOfFrame();
             if(stateEvent != null)
