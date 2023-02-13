@@ -57,7 +57,7 @@ namespace PuzzleCubes
             }
             public async void Subscribe(IDictionary< MqttTopicFilter, MqttActions.Message>  topicFilter)
             {
-                 await managedMqttClient.SubscribeAsync(topicFilter);
+                 await managedMqttClient.SubscribeAsync(topicFilter.Keys);
                  foreach(var kvp in topicFilter)
                     this.subscriptions.Add(kvp.Key.Topic,kvp.Value);
             }
