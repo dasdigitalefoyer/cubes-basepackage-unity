@@ -62,7 +62,7 @@ namespace PuzzleCubes
                             {
                                 if (socket.TryReceiveFrameString(out var data))
                                 {
-                                    Debug.Log("got data: " + data);
+                                    // Debug.Log("got data: " + data);
 
                                     var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
                                     if (result != null)
