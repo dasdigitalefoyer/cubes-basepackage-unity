@@ -48,7 +48,7 @@ namespace PuzzleCubes
             public MqttCommunication mqttCommunication;
             public ZmqCommunication zmqCommunication;
 
-            public AppState appState;
+            protected AppState appState;
             protected virtual void Initialize()
             {
             //    mqttCommunication.Subscribe("test", HandleTest );

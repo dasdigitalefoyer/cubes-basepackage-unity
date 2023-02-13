@@ -9,7 +9,7 @@ namespace PuzzleCubes.Controller
    
     using System.Collections;
 
-    class AppController: MonoBehaviour
+    public class AppController: MonoBehaviour
     {
         public Models.AppState state;
         public AppStateEvent stateEvent;
