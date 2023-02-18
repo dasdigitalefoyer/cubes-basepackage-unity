@@ -204,10 +204,12 @@ namespace PuzzleCubes
             private async void OnDestroy()
             {
                 Debug.Log("Stopping MqttClient");
-                while (managedMqttClient.PendingApplicationMessagesCount > 0)
+                float maxTimeout = 3;
+                float time = Time.time;
+                while (managedMqttClient.PendingApplicationMessagesCount > 0 && maxTimeout > Time.time -time)
                 {
                      Debug.Log("Waiting for pending messages");
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                 }
                 await managedMqttClient.StopAsync();
             }
