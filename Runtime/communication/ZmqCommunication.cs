@@ -98,11 +98,7 @@ namespace PuzzleCubes
                 Debug.Log("ZMQ stopped");
             }
 
-
-
-
-
-           
+  
 
             IEnumerator ProcessEventQueue()
             {
@@ -125,27 +121,18 @@ namespace PuzzleCubes
 
             }
 
-            // void OnDestroy()
-            // {
-
-            //     if(receiveThread != null && receiveThread.IsAlive)
-            //         Stop();
-            // }
-
+       
             private void OnDestroy()
             {
                 if(receiveThread != null && receiveThread.IsAlive)
                     Stop();
-               
-
-                
+       
             }
 
            
             public async void Send(string message , bool enqueue = false)
             {
-                
-               
+                           
                 if(socket != null)
                 {
                     Debug.Log("Send to ZMQ");

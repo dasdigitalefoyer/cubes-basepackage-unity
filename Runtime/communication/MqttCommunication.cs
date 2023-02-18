@@ -34,8 +34,8 @@ namespace PuzzleCubes
             ConcurrentQueue<MqttApplicationMessage> pendingMqttMessages = new ConcurrentQueue<MqttApplicationMessage>();
             Dictionary<string, MqttActions.Message> subscriptions = new Dictionary<string, MqttActions.Message>();
             
-            // public JsonEvent jsonEvent;
-            // public MqttEvent mqttEvent;
+            MqttApplicationMessage lastWill;
+
 
 
             public string host = "pc-server";
@@ -63,52 +63,38 @@ namespace PuzzleCubes
             }
             public async Task Connect()
             {
-                // if(clientId.Equals(""))
-                //     clientId = App.cubeId;
-               
-               
+
            
                 {
-                    var mqttClientOptions = new MqttClientOptionsBuilder()
+                   
+                    //  add last will -> state with disconnected:
+                    
+                    var    mqttClientOptions = new MqttClientOptionsBuilder()
                         .WithTcpServer(host, port)
                         .WithClientId(clientId)
                         .Build();
+                    
+                    if(lastWill != null)
+                    {
+                        mqttClientOptions.WillTopic = lastWill.Topic;
+                        mqttClientOptions.WillPayload = lastWill.Payload;
+                        mqttClientOptions.WillQualityOfServiceLevel = lastWill.QualityOfServiceLevel;
+                        mqttClientOptions.WillRetain = lastWill.Retain;
+                    }
+                        
+
 
                     var managedMqttClientOptions = new ManagedMqttClientOptionsBuilder()
                         .WithClientOptions(mqttClientOptions)
                         .Build();
 
                     await managedMqttClient.StartAsync(managedMqttClientOptions);
-
-                    // await managedMqttClient.SubscribeAsync("test");
-                    // await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateTopic());
-                    // await managedMqttClient.SubscribeAsync(App.GetGlobalAppStateWildcardTopic());
-                    // await managedMqttClient.SubscribeAsync(App.GetDedicatedAppStateTopic(clientId));
-                   
-                    
-
-              
                     
                     managedMqttClient.ApplicationMessageReceivedAsync +=  async (  args) => 
                     {
-                        // MqttTopicFilterCompareResult r = MqttTopicFilterComparer.Compare(args.ApplicationMessage.Topic,App.GetGlobalAppStateWildcardTopic() );
-                        // Debug.Log(r);
-                        
-                        
-                         pendingMqttMessages.Enqueue(args.ApplicationMessage);
-                       
-                    // //    Debug.Log("got mqtt message: " +args.ToString());
-                    //     if(args.ApplicationMessage.Topic.Equals(App.GetGlobalAppStateTopic()) || (args.ApplicationMessage.Topic.Equals(App.GetDedicatedAppStateTopic(this.clientId)) ) )
-                    //     {
-                    //         var data = System.Text.Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
 
-                    //         Debug.Log("appState: " + data);
-                    //         var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonDatagram>(data);
-                    //         if(result != null)
-                    //             pendingJsonDatagrams.Enqueue(result);
-                            
-                                
-                    //     }
+                        pendingMqttMessages.Enqueue(args.ApplicationMessage);
+                       
                         await  Task.CompletedTask;
                                                 
                     };
@@ -129,9 +115,10 @@ namespace PuzzleCubes
                 }
             }
 
-            public async void Initialize(string id)
+            public async void Initialize(string id, MqttApplicationMessage lastWill = null)
             {
                 this.clientId = id;
+                this.lastWill = lastWill;
                 
                 await this.Connect();
                 StartCoroutine(ProcessEventQueue());
@@ -152,11 +139,8 @@ namespace PuzzleCubes
             {
                 while(true)
                 {
-                //     JsonDatagram jd;
-                //     while(pendingJsonDatagrams.TryDequeue(out jd))
-                //     {
-                //         jsonEvent.Invoke(jd);
-                //     }
+
+
                     while(pendingMqttMessages.TryDequeue(out var message))
                     {
                         foreach(var kvp in subscriptions)
@@ -167,8 +151,7 @@ namespace PuzzleCubes
                             }
                             
                         }
-                        // if(mqttEvent != null)
-                        //     mqttEvent.Invoke(message);
+                
                     }
                     
                     yield return new WaitForEndOfFrame();

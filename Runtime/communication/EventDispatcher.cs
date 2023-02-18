@@ -57,6 +57,21 @@ namespace PuzzleCubes
             //    mqttCommunication.Subscribe("test", HandleTest );
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
 
+                // create last will message with running = false
+                AppState s = new AppState();
+                s.AppName = appController.state.AppName;
+                s.CubeId = appController.state.CubeId;
+                
+                var json = JsonConvert.SerializeObject(s, Formatting.Indented, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.Objects
+                });
+                 var msg = new MqttApplicationMessage();
+                msg.Topic = appStateTopic(s.CubeId);
+                msg.Payload = System.Text.Encoding.UTF8.GetBytes(json);
+                msg.Retain = true;
+                mqttCommunication.Initialize(appController.state.CubeId + "." + appController.state.AppName, msg );
 
             }
             protected virtual void PostInitialize()
@@ -129,11 +144,7 @@ namespace PuzzleCubes
                 }
             
             }
-            // public void HandleMqttEvent(MqttApplicationMessage message)
-            // {
-
-            //     Debug.Log("HandleMqttEvent");
-            // }
+      
 
             public void DispatchAppStateEvent(AppState state)
             {
