@@ -16,6 +16,8 @@ namespace PuzzleCubes.Controller
 
         public MqttCommunication mqttCommunication;
 
+        protected bool stateDirty = false;
+
 
 
         void Awake()
@@ -49,7 +51,7 @@ namespace PuzzleCubes.Controller
         protected IEnumerator DispatchState()
         {
             yield return new WaitForEndOfFrame();
-            if(stateEvent != null)
+            if(stateDirty && stateEvent != null)
                 stateEvent.Invoke(state);
         }
 
