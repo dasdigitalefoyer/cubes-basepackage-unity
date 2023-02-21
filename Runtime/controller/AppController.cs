@@ -51,10 +51,15 @@ namespace PuzzleCubes.Controller
 
         protected IEnumerator DispatchState()
         {
-            yield return new WaitForEndOfFrame();
-            if(stateDirty && stateEvent != null)
-                stateEvent.Invoke(state);
-            stateDirty = false;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                if(stateDirty && stateEvent != null)
+                {
+                    stateEvent.Invoke(state);
+                    stateDirty = false;
+                }
+            }
         }
 
         void OnApplicationQuit()
