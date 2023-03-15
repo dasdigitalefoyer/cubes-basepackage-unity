@@ -16,6 +16,9 @@ namespace PuzzleCubes.Models
         public string AppName { get => appName; set => appName = value; }
         public string CubeId { get => cubeId; set => cubeId = value; }
         public bool IsRunning { get => isRunning; set => isRunning = value; }
+
+
+        // TODO: Add Commuications states
     }
 
 }
