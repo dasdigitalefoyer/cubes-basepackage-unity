@@ -1,5 +1,7 @@
 
 
+using System.Text;
+
 namespace PuzzleCubes.Models
 {
 
@@ -24,7 +26,13 @@ namespace PuzzleCubes.Models
         public float Volume { get => volume; set => volume = value; }
         public bool MqttConnected { get => mqttConnected; set => mqttConnected = value; }
 
-
+        public override string ToString() {
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("CubeId:\t").Append(CubeId);
+			sb.AppendLine("MqttConnected:\t").Append(MqttConnected);
+			sb.AppendLine("Volume:\t").Append(Volume);
+			return sb.ToString();
+		}
     }
 
 }
