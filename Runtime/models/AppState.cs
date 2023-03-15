@@ -21,7 +21,7 @@ namespace PuzzleCubes.Models
         public string CubeId { get => cubeId; set => cubeId = value; }
         public bool IsRunning { get => isRunning; set => isRunning = value; }
 
-        public bool Volume { get => volume; set => volume = value; }
+        public float Volume { get => volume; set => volume = value; }
         public bool MqttConnected { get => mqttConnected; set => mqttConnected = value; }
 
 
