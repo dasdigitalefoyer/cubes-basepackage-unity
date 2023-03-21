@@ -75,7 +75,7 @@ namespace PuzzleCubes.Controller
             } );
             /* NOMOVING */
             keyToEventMap.Add(KeyCode.Y, () => {
-                dispatchObject(new CubeControl () ); } );
+                dispatchObject(new CubeControl {Moving = false} ); } );
             
             /* NOMOVING */
             keyToEventMap.Add(KeyCode.G, () => {
