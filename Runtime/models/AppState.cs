@@ -28,9 +28,9 @@ namespace PuzzleCubes.Models
 
         public override string ToString() {
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("CubeId:\t").Append(CubeId);
-			sb.AppendLine("MqttConnected:\t").Append(MqttConnected);
-			sb.AppendLine("Volume:\t").Append(Volume);
+			sb.Append("CubeId:\t\t").Append(CubeId).AppendLine();
+			sb.Append("MqttConnected:\t").Append(MqttConnected).AppendLine();
+			sb.Append("Volume:\t\t").Append(Volume).AppendLine();
 			return sb.ToString();
 		}
     }
