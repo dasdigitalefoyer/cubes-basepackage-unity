@@ -97,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076098309743329225, guid: e75d3f7ba3cc9084797b385050a11758, type: 3}
       propertyPath: m_text
-      value: AppState
+      value: <style=DebugHeader>AppState</style>
       objectReference: {fileID: 0}
     - target: {fileID: 2076098309743329225, guid: e75d3f7ba3cc9084797b385050a11758, type: 3}
       propertyPath: m_HorizontalAlignment

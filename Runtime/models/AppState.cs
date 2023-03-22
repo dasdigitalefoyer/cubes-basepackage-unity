@@ -28,10 +28,12 @@ namespace PuzzleCubes.Models
 
         public override string ToString() {
 			StringBuilder sb = new StringBuilder();
-            sb.AppendLine("- AppState -");
+            sb.AppendLine("<style=DebugHeader>AppState</style><line-height=150%>");
+			sb.Append("</line-height><style=DebugContent>");
 			sb.Append("CubeId:\t\t").Append(CubeId).AppendLine();
 			sb.Append("MqttConnected:\t").Append(MqttConnected).AppendLine();
 			sb.Append("Volume:\t\t").Append(Volume).AppendLine();
+			sb.Append("</style>");
 			return sb.ToString();
 		}
     }
