@@ -28,6 +28,7 @@ namespace PuzzleCubes.Models
 
         public override string ToString() {
 			StringBuilder sb = new StringBuilder();
+            sb.AppendLine("- AppState -");
 			sb.Append("CubeId:\t\t").Append(CubeId).AppendLine();
 			sb.Append("MqttConnected:\t").Append(MqttConnected).AppendLine();
 			sb.Append("Volume:\t\t").Append(Volume).AppendLine();

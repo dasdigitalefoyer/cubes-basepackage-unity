@@ -43,5 +43,15 @@ namespace PuzzleCubes.Controller {
 			if (stateEvent != null)
 				stateEvent.Invoke(state);
 		}
+
+		public void HandleVolume(float volume) {
+			state.Volume = volume;
+			stateDirty = true;
+		}
+
+		public void HandleMqttConnected(bool connected) {
+			state.MqttConnected = connected;
+			stateDirty = true;
+		}
 	}
 }
