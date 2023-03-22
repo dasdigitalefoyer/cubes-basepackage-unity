@@ -18,7 +18,11 @@ namespace PuzzleCubes
     using System.Collections;
     using System.Threading;
     using Models;
-    using UnityEngine.Networking.PlayerConnection;
+    using System;
+    using UnityEngine.Events;
+    using System.Linq;
+
+
 
     // using MQTTnet.Server;
     // using Newtonsoft.Json.Serialization;
@@ -29,13 +33,14 @@ namespace PuzzleCubes
         public class MqttCommunication : MonoBehaviour
         {
           
-
+            ConcurrentQueue<Action> pendingActions = new ConcurrentQueue<Action>();
             ConcurrentQueue<JsonDatagram> pendingJsonDatagrams = new ConcurrentQueue<JsonDatagram>();
             ConcurrentQueue<MqttApplicationMessage> pendingMqttMessages = new ConcurrentQueue<MqttApplicationMessage>();
             Dictionary<string, MqttActions.Message> subscriptions = new Dictionary<string, MqttActions.Message>();
             
             MqttApplicationMessage lastWill;
 
+            public UnityEvent<bool> connectedEvent;
 
 
             public string host = "pc-server";
@@ -102,14 +107,32 @@ namespace PuzzleCubes
                     managedMqttClient.ConnectingFailedAsync  += async (args) =>
                     {
                         Debug.Log("ConnectingFailedAsync: " + args.Exception);
+                        pendingActions.Enqueue(() => {
+                            if(connectedEvent != null)
+                                connectedEvent.Invoke(false);
+                        });
                         await  Task.CompletedTask;
                       
                     };
                     managedMqttClient.ConnectedAsync += async (args) =>
                     {
                         Debug.Log("Connected to Mqtt-Server");
+                       
+                        pendingActions.Enqueue(() => {
+                            if(connectedEvent != null)
+                                connectedEvent.Invoke(true);
+                        });
                         await Task.CompletedTask;
                         
+                    };
+                    managedMqttClient.DisconnectedAsync += async (args) =>
+                    {
+                        Debug.Log("Disconnected from Mqtt-Server");
+                        pendingActions.Enqueue(() => {
+                            if(connectedEvent != null)
+                                connectedEvent.Invoke(false);
+                        });
+                        await Task.CompletedTask;
                     };
                    
                 }
@@ -152,6 +175,10 @@ namespace PuzzleCubes
                             
                         }
                 
+                    }
+                    while(pendingActions.TryDequeue(out var action))
+                    {
+                        action.Invoke();
                     }
                     
                     yield return new WaitForEndOfFrame();
