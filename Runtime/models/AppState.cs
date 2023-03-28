@@ -28,7 +28,7 @@ namespace PuzzleCubes.Models
 
         public override string ToString() {
 			StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<style=DebugHeader>AppState");
+            sb.AppendLine("<style=DebugHeader>AppState</style><style=DebugHeaderSpacer>");
 			sb.Append("</style><style=DebugContent>"); // End style in new line to use line-height change
             sb.Append("CubeId:\t\t").Append(CubeId).AppendLine();
 			sb.Append("MqttConnected:\t").Append(MqttConnected).AppendLine();
