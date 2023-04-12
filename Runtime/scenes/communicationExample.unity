@@ -358,3 +358,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d2a232409eb7194aaad11a71d483580, type: 3}
+--- !u!1 &2021770105 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 523420240045937853, guid: 1d2a232409eb7194aaad11a71d483580, type: 3}
+  m_PrefabInstance: {fileID: 2021770104}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2021770106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021770105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af90f20aba34104bb1a59e6dcc8b1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubeControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cubeStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  notificationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  appDatagramEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  mqttCommunication: {fileID: 0}
+  zmqCommunication: {fileID: 0}
+  appController: {fileID: 0}
+--- !u!114 &2021770107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021770105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791a34d8ffe25424c876ebf65310c25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2021770106}
+        m_TargetAssemblyTypeName: PuzzleCubes.Communication.EventDispatcher, Unity.com.mirevi.pc-unity-base
+        m_MethodName: HandleJsonEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

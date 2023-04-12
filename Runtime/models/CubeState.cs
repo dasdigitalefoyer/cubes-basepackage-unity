@@ -22,7 +22,8 @@ namespace PuzzleCubes
             }
 
             [UnityEngine.SerializeField] private State current;
-            [UnityEngine.SerializeField] private Pose pose;
+          //  [UnityEngine.SerializeField] private Pose pose;
+            [UnityEngine.SerializeField] private CubeControl cubeControl;
           
             [UnityEngine.SerializeField] private Neighbourhood neighbourhood;
             [UnityEngine.SerializeField] private Light light;
@@ -34,8 +35,9 @@ namespace PuzzleCubes
             public Light Light { get => this.light; set => this.light = value; }
             public Audio Audio { get => this.audio; set => this.audio = value; }
             public Display Display { get => this.display; set => this.display = value; }
-            public Pose Pose { get => pose; set => pose = value; }
+      //      public Pose Pose { get => pose; set => pose = value; }
             public State Current { get => current; set => current = value; }
+            public CubeControl CubeControl { get => cubeControl; set => cubeControl = value; }
             // public System System { get => this.system; set => this.system = value; }
 
 

@@ -6,6 +6,8 @@ namespace PuzzleCubes
 
         using UnityEngine;
         using UnityEngine.Events;
+        using Newtonsoft.Json.Linq;
+        using MQTTnet;
 
         [System.Serializable]
         public class NotificationEvent : UnityEvent<Notification>
@@ -13,12 +15,17 @@ namespace PuzzleCubes
         }
 
         [System.Serializable]
-        public class AppDatagramEvent : UnityEvent<AppDatagram>
+        public class AppDatagramEvent : UnityEvent<string>
         {
         }
 
         [System.Serializable]
         public class WebSocketEvent : UnityEvent<WebSocketDatagram>
+        {
+        }
+
+        [System.Serializable]
+        public class JsonEvent : UnityEvent<JsonDatagram>
         {
         }
 
@@ -31,6 +38,18 @@ namespace PuzzleCubes
         public class CubeStateEvent : UnityEvent<CubeState>
         {
         }
+
+        [System.Serializable]
+        public class MqttEvent : UnityEvent<MqttApplicationMessage>
+        {
+        }
+
+        [System.Serializable]
+        public class AppStateEvent : UnityEvent<AppState>
+        {
+        }
+
+      
 
      
     }

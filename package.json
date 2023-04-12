@@ -1,9 +1,12 @@
 {
   "name": "com.mirevi.pc-unity-base",
   "displayName": "MiReVi - PuzzleCubeUnityBase",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "unity": "2021.3",
   "description": "Base Package for developing PuzzleCube Apps in Unity",
+  "dependencies": {
+      "com.unity.textmeshpro": "3.0.6"
+  },
   "keywords": [
     "unity",
     "unity3d",
