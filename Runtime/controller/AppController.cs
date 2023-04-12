@@ -1,80 +1,57 @@
-namespace PuzzleCubes.Controller
-{
-    using System;
-    using System.Data;
-    using PuzzleCubes.Communication;
-    using PuzzleCubes.Models;
-    using UnityEngine;
-    using System.Threading.Tasks;
-   
-    using System.Collections;
-    using MQTTnet;
-    using UnityEditor;
+using PuzzleCubes.Models;
+using UnityEngine;
+using System.Threading.Tasks;
+using System.Collections;
 
-    public class AppController : MonoBehaviour
-    {
-        public  AppState state = new AppState();
-        public AppStateEvent stateEvent;
+namespace PuzzleCubes.Controller {
+	public class AppController : MonoBehaviour {
+		public AppState state = new AppState();
+		public AppStateEvent stateEvent;
+		// public MqttCommunication mqttCommunication;
 
-        // public MqttCommunication mqttCommunication;
+		protected bool stateDirty = false;
 
-        protected bool stateDirty = false;
+		void Awake() {
+			state.CubeId = SystemInfo.deviceName;
+		}
 
+		protected virtual void Initialize() { }
 
+		async void Start() {
+			Initialize();
 
-        void Awake()
-        {
-            state.CubeId = SystemInfo.deviceName;
-          
-            
-        }
+			state.IsRunning = true;
+			stateDirty = true;
 
-       
+			StartCoroutine(DispatchState());
+			await Task.CompletedTask;
+		}
 
-        protected virtual void Initialize()
-        {
+		protected IEnumerator DispatchState() {
+			while (true) {
+				yield return new WaitForEndOfFrame();
+				if (stateDirty && stateEvent != null) {
+					stateEvent.Invoke(state);
+					stateDirty = false;
+				}
+			}
+		}
 
-        }
+		void OnApplicationQuit() {
+			Debug.Log("AppController::OnApplicationQuit");
+			state.IsRunning = false;
+			if (stateEvent != null)
+				stateEvent.Invoke(state);
+		}
 
-        async void Start()
-        {
-            Initialize();
+		public void HandleVolume(float volume) {
+			state.Volume = volume;
+			stateDirty = true;
+		}
 
-           
-            state.IsRunning = true;
-            stateDirty = true;
-
-            StartCoroutine(DispatchState());
-            await Task.CompletedTask;
-
-        }
-
-        protected IEnumerator DispatchState()
-        {
-            while (true)
-            {
-                yield return new WaitForEndOfFrame();
-                if(stateDirty && stateEvent != null)
-                {
-                    stateEvent.Invoke(state);
-                    stateDirty = false;
-                }
-            }
-        }
-
-        void OnApplicationQuit()
-        {
-            Debug.Log("AppController::OnApplicationQuit");
-            state.IsRunning = false;
-            if(stateEvent != null)
-                stateEvent.Invoke(state);
-        }
-
-
-
-       
-    }
-
-   
-    
+		public void HandleMqttConnected(bool connected) {
+			state.MqttConnected = connected;
+			stateDirty = true;
+		}
+	}
 }
