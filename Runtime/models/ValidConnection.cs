@@ -9,17 +9,17 @@ namespace PuzzleCubes
         public class ValidConnection
         {
             [SerializeField] 
-            private Edge connectedEdge;
+            private CubeDirection edge;
             [SerializeField] 
             private bool valid;
 
             [SerializeField] 
-            private ConnectedCube connectedCubeData;
+            private ConnectedCube connectedTo;
 
-            public Edge ConnectedEdge
+            public CubeDirection Edge
             {
-                get => connectedEdge;
-                set => connectedEdge = value;
+                get => edge;
+                set => edge = value;
             }
 
             public bool Valid
@@ -28,10 +28,10 @@ namespace PuzzleCubes
                 set => valid = value;
             }
 
-            public ConnectedCube ConnectedCubeData
+            public ConnectedCube ConnectedTo
             {
-                get => connectedCubeData;
-                set => connectedCubeData = value;
+                get => connectedTo;
+                set => connectedTo = value;
             }
         }
     }

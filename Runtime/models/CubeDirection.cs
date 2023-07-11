@@ -6,7 +6,7 @@ namespace PuzzleCubes
     namespace Models
     {
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum Edge
+        public enum CubeDirection
         {
             FORWARD,
             BACKWARD,

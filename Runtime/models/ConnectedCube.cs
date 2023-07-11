@@ -7,7 +7,7 @@ namespace PuzzleCubes
         public class ConnectedCube
         {
             [SerializeField] private string id;
-            [SerializeField] private Edge connectedTo;
+            [SerializeField] private CubeDirection edge;
 
             public string Id
             {
@@ -15,10 +15,10 @@ namespace PuzzleCubes
                 set => id = value;
             }
 
-            public Edge ConnectedTo
+            public CubeDirection Edge
             {
-                get => connectedTo;
-                set => connectedTo = value;
+                get => edge;
+                set => edge = value;
             }
         }
     }
