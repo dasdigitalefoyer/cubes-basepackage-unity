@@ -12,6 +12,7 @@ namespace PuzzleCubes
             BACKWARD,
             LEFT,
             RIGHT,
+            NONE
         }
     }
 }
