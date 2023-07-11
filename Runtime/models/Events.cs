@@ -49,9 +49,11 @@ namespace PuzzleCubes
         {
         }
 
-      
+        [System.Serializable]
+        public class ValidConnectionEvent : UnityEvent<ValidConnection>
+        {
+        }
 
-     
     }
 
 }
