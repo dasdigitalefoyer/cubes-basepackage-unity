@@ -46,7 +46,7 @@ namespace PuzzleCubes
             public CubeControlEvent cubeControlEvent;
             public CubeStateEvent cubeStateEvent;
             public NotificationEvent notificationEvent;
-            private ValidConnectionEvent validConnectionEvent;
+            public ValidConnectionEvent validConnectionEvent;
 
             public AppDatagramEvent appDatagramEvent;
 
