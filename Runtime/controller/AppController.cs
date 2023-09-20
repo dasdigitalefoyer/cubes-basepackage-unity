@@ -12,6 +12,7 @@ namespace PuzzleCubes.Controller {
 		protected bool stateDirty = false;
 
 		void Awake() {
+			state.AppVersion = Application.version;
 			state.CubeId = SystemInfo.deviceName;
 		}
 
