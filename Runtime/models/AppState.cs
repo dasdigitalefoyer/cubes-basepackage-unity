@@ -30,6 +30,18 @@ namespace PuzzleCubes.Models
         public float Volume { get => volume; set => volume = value; }
         public bool MqttConnected { get => mqttConnected; set => mqttConnected = value; }
 
+        public AppState() { }
+
+        public AppState(AppState toCopy) {
+            AppName = toCopy.AppName;
+            AppVersion = toCopy.AppVersion;
+            ProcessId = toCopy.ProcessId;
+            CubeId = toCopy.CubeId;
+            IsRunning = toCopy.IsRunning;
+            Volume = toCopy.Volume;
+            MqttConnected = toCopy.MqttConnected;
+        }
+
         public override string ToString() {
 			StringBuilder sb = new StringBuilder();
             sb.AppendLine("<style=DebugHeader>AppState</style><style=DebugHeaderSpacer>");
