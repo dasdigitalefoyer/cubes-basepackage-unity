@@ -21,6 +21,7 @@ namespace PuzzleCubes.Controller {
 		async void Start() {
 			Initialize();
 
+			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
 			state.IsRunning = true;
 			stateDirty = true;
 
