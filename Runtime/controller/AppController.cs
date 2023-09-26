@@ -18,15 +18,16 @@ namespace PuzzleCubes.Controller {
 
 		protected virtual void Initialize() { }
 
-		async void Start() {
-			Initialize();
-
+		void Awake() {
 			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
 			state.IsRunning = true;
-			stateDirty = true;
+			Initialize();
 
+			stateDirty = true;
+		}
+
+		void Start() {
 			StartCoroutine(DispatchState());
-			await Task.CompletedTask;
 		}
 
 		protected IEnumerator DispatchState() {
