@@ -11,14 +11,11 @@ namespace PuzzleCubes.Controller {
 
 		protected bool stateDirty = false;
 
-		void Awake() {
-			state.AppVersion = Application.version;
-			state.CubeId = SystemInfo.deviceName;
-		}
-
 		protected virtual void Initialize() { }
 
 		void Awake() {
+			state.AppVersion = Application.version;
+			state.CubeId = SystemInfo.deviceName;
 			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
 			state.IsRunning = true;
 			Initialize();
