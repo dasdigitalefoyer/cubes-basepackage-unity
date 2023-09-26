@@ -1,7 +1,7 @@
 {
   "name": "com.mirevi.pc-unity-base",
   "displayName": "MiReVi - PuzzleCubeUnityBase",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "unity": "2021.3",
   "description": "Base Package for developing PuzzleCube Apps in Unity",
   "dependencies": {
@@ -19,8 +19,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "gitDependencies": {
-    "com.yasirkula.ingamedebugconsole": "https://github.com/yasirkula/UnityIngameDebugConsole.git",
-    "com.endel.nativewebsocket": "https://github.com/endel/NativeWebSocket.git#upm"
-  }
+  "gitDependencies": {}
 }

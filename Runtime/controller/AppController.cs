@@ -11,20 +11,20 @@ namespace PuzzleCubes.Controller {
 
 		protected bool stateDirty = false;
 
-		void Awake() {
-			state.CubeId = SystemInfo.deviceName;
-		}
-
 		protected virtual void Initialize() { }
 
-		async void Start() {
+		void Awake() {
+			state.AppVersion = Application.version;
+			state.CubeId = SystemInfo.deviceName;
+			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
+			state.IsRunning = true;
 			Initialize();
 
-			state.IsRunning = true;
 			stateDirty = true;
+		}
 
+		void Start() {
 			StartCoroutine(DispatchState());
-			await Task.CompletedTask;
 		}
 
 		protected IEnumerator DispatchState() {
