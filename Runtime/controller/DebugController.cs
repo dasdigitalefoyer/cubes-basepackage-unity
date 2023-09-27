@@ -24,7 +24,7 @@ namespace PuzzleCubes.Controller {
 				graphy.SetActive(_showGraphy);
 			}
 		}
-		public bool ShowLogs {
+		public bool ShowIngameDebugConsole {
 			get => _showLogs;
 			set {
 				_showLogs = value;

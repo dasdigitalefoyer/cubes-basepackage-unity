@@ -81,11 +81,25 @@ namespace PuzzleCubes.Controller
             keyToEventMap.Add(KeyCode.G, () => {
                 dispatchObject(new CubeControl  {				
 					Tap = true});
-            } ); 
+            } );
 
             // SETUP CUBECONTROL - END
-          
 
+            // Toggle DebugView & Graphy
+            keyToEventMap.Add(KeyCode.C, () => {
+                DebugController dc = FindObjectOfType<DebugController>();
+                if (dc) {
+                    dc.ShowCubeOverlay = !dc.ShowCubeOverlay;
+                    dc.ShowGraphy = !dc.ShowGraphy;
+                }
+            });
+            // Toggle IngameDebugConsole
+            keyToEventMap.Add(KeyCode.V, () => {
+                DebugController dc = FindObjectOfType<DebugController>();
+                if (dc) {
+                    dc.ShowIngameDebugConsole = !dc.ShowIngameDebugConsole;
+                }
+            });
         }
 
         void Start()
