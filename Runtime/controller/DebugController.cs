@@ -25,10 +25,10 @@ namespace PuzzleCubes.Controller {
 			}
 		}
 		public bool ShowIngameDebugConsole {
-			get => _showLogs;
+			get => _showIngameDebugConsole;
 			set {
-				_showLogs = value;
-				if (_showLogs) {
+				_showIngameDebugConsole = value;
+				if (_showIngameDebugConsole) {
 					IngameDebugConsole.DebugLogManager.Instance.ShowLogWindow();
 				} else {
 					IngameDebugConsole.DebugLogManager.Instance.HideLogWindow();
@@ -44,19 +44,19 @@ namespace PuzzleCubes.Controller {
 		[SerializeField][ReadOnlyField]
 		private bool _showGraphy;
 		[SerializeField][ReadOnlyField]
-		private bool _showLogs;
-        #endregion
+		private bool _showIngameDebugConsole;
+		#endregion
 
-        #region MonoBehaviour Callbacks
+		#region MonoBehaviour Callbacks
 #if !UNITY_EDITOR
 		private void Awake() {
 			ShowCubeOverlay = false;
 			ShowGraphy = false;
-			ShowLogs = false;
+			ShowIngameDebugConsole = false;
 		}
 #endif
 
-        private void OnValidate() {
+		private void OnValidate() {
             if (!debugView) {
 				Debug.Log("DebugController missing reference to debugView");
             }
