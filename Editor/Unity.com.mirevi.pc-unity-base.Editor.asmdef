@@ -1,6 +1,9 @@
 {
     "name": "Unity.com.mirevi.pc-unity-base.Editor",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:9715b638ed9519f4b99931a38e47dd98"
+    ],
     "includePlatforms": [
         "Editor"
     ],
