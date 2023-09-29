@@ -1,7 +1,7 @@
-using PuzzleCubes.Applications.PerformanceBot.Views;
+using PuzzleCubes.Models;
 using UnityEngine;
 
-namespace PuzzleCubes.Applications.PerformanceBot.View {
+namespace PuzzleCubes.Views {
 	public class CubeControlDebugView : MonoBehaviour {
 		#region Inspector Fields
 		[Header("Event indicator references")]
@@ -34,6 +34,26 @@ namespace PuzzleCubes.Applications.PerformanceBot.View {
 		#endregion
 
 		#region Public Methods
+		public void HandleCubeControl(CubeControl cubeControl) {
+			if (cubeControl == null) return;
+
+			if (cubeControl.TranslationStepForward.GetValueOrDefault()) TranslationStepForward();
+			if (cubeControl.TranslationStepBackward.GetValueOrDefault()) TranslationStepBackward();
+			if (cubeControl.TranslationStepLeft.GetValueOrDefault()) TranslationStepLeft();
+			if (cubeControl.TranslationStepRight.GetValueOrDefault()) TranslationStepRight();
+
+			if (cubeControl.RotationImpulseLeft.GetValueOrDefault()) RotationImpulseLeft();
+			if (cubeControl.RotationImpulseRight.GetValueOrDefault()) RotationImpulseRight();
+			if (cubeControl.RotationStepLeft.GetValueOrDefault()) RotationStepLeft();
+			if (cubeControl.RotationStepRight.GetValueOrDefault()) RotationStepRight();
+
+			if (cubeControl.Moving.HasValue) {
+				IsMoving((bool)cubeControl.Moving);
+			}
+
+			if (cubeControl.Tap.GetValueOrDefault()) Tap();
+		}
+
 		public void TranslationStepForward() => translationStepForward?.SetActive();
 		public void TranslationStepBackward() => translationStepBackward?.SetActive();
 		public void TranslationStepLeft() => translationStepLeft?.SetActive();

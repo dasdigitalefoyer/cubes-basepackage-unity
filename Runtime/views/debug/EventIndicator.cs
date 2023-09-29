@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PuzzleCubes.Applications.PerformanceBot.Views {
+namespace PuzzleCubes.Views {
 	public class EventIndicator : MonoBehaviour {
 		#region Inspector Fields
 		[SerializeField]
