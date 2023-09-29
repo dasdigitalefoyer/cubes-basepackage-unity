@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace PuzzleCubes.Controller {
 	public class AppController : MonoBehaviour {
+		public static AppController Instance { get; protected set; }
+		public GameObject splashScreen;
+
 		public AppState state = new AppState();
 		public AppStateEvent stateEvent;
 		// public MqttCommunication mqttCommunication;
@@ -14,6 +17,11 @@ namespace PuzzleCubes.Controller {
 		protected virtual void Initialize() { }
 
 		void Awake() {
+			Instance = this;
+            if (!splashScreen) {
+				splashScreen = GameObject.Find("SplashScreen");
+            }
+
 			state.AppVersion = Application.version;
 			state.CubeId = SystemInfo.deviceName;
 			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -57,5 +65,17 @@ namespace PuzzleCubes.Controller {
 			state.MqttConnected = connected;
 			stateDirty = true;
 		}
+
+		public void ShowSplashScreen(bool active) {
+            if (splashScreen) {
+				splashScreen.SetActive(active);
+            }
+        }
+
+		public void ToggleSplashScreen() {
+            if (splashScreen) {
+				ShowSplashScreen(splashScreen.activeSelf);
+			}
+        }
 	}
 }
