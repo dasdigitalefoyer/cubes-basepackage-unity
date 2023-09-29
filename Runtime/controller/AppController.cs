@@ -25,6 +25,10 @@ namespace PuzzleCubes.Controller {
 
 		void Start() {
 			StartCoroutine(DispatchState());
+
+#if !UNITY_EDITOR
+			Cursor.visible = false;
+#endif
 		}
 
 		protected IEnumerator DispatchState() {
