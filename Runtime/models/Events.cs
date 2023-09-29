@@ -54,6 +54,10 @@ namespace PuzzleCubes
         {
         }
 
+        [System.Serializable]
+        public class DebugControlEvent : UnityEvent<DebugControl>
+        {
+        }
     }
 
 }

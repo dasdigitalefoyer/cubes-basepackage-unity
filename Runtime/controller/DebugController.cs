@@ -67,6 +67,23 @@ namespace PuzzleCubes.Controller {
         #endregion
 
         #region Public Methods
+		public void HandleDebugControl(DebugControl debugControl) {
+            if (debugControl == null || debugControl.Type == null || debugControl.Active == null) {
+				return;
+            }
+            switch (debugControl.Type) {
+				case DebugControl.DebugControlType.UI:
+					ShowCubeOverlay = (bool)debugControl.Active;
+					ShowGraphy = (bool)debugControl.Active;
+					break;
+				case DebugControl.DebugControlType.Console:
+					ShowIngameDebugConsole = (bool)debugControl.Active;
+					break;
+				default:
+                    break;
+            }
+        }
+
         public void OnNotificationEvent(Notification notification) {
 			switch (notification.Type) {
 				case Notification.TypeEnum.INFO:

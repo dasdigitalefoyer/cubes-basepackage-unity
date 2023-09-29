@@ -51,7 +51,7 @@ MonoBehaviour:
   graphy: {fileID: 729183913556910071}
   _showCubeOverlay: 0
   _showGraphy: 0
-  _showLogs: 0
+  _showIngameDebugConsole: 0
 --- !u!1001 &729183913557076497
 PrefabInstance:
   m_ObjectHideFlags: 0

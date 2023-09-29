@@ -22,6 +22,7 @@ namespace PuzzleCubes
         {
             // public static string appStateTopic =  "puzzleCubes/app/state";
             public string appStateTopic(string cubeId) =>  $"puzzleCubes/{cubeId}/app/state";
+            public static string debugTopic = "puzzleCubes/debug";
             // public static string appSubTopics = "puzzleCubes/app/+";
             public string dedicatedAppTopicPrefix(string cubeId) =>  $"puzzleCubes/{cubeId}/app/";
 
@@ -37,6 +38,7 @@ namespace PuzzleCubes
                     { typeof(CubeState), (x,o) => x.cubeStateEvent.Invoke(o as CubeState)},
                     { typeof(Notification), (x,o) => x.notificationEvent.Invoke(o as Notification)},
                     { typeof(ValidConnection), (x,o) => x.validConnectionEvent.Invoke(o as ValidConnection)},
+                    { typeof(DebugControl), (x,o) => x.debugControlEvent.Invoke(o as DebugControl)},
                 };
 
             
@@ -47,6 +49,7 @@ namespace PuzzleCubes
             public CubeStateEvent cubeStateEvent;
             public NotificationEvent notificationEvent;
             public ValidConnectionEvent validConnectionEvent;
+            public DebugControlEvent debugControlEvent;
 
             public AppDatagramEvent appDatagramEvent;
 
@@ -61,6 +64,7 @@ namespace PuzzleCubes
                 //    mqttCommunication.Subscribe("test", HandleTest );
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(validConnectionTopic(appController.state.CubeId)).Build(), HandleValidConnection);
+                subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(debugTopic).WithNoLocal().Build(), HandleDebugControl);
 
                 // create last will message with running = false
                 AppState s = new AppState();
@@ -92,6 +96,14 @@ namespace PuzzleCubes
                 Debug.Log("HandleTest: " + msg.Payload );
             }
             
+            protected void HandleDebugControl(MqttApplicationMessage msg, IList<string> wildcardItem)
+            {
+                var data = System.Text.Encoding.UTF8.GetString(msg.Payload);
+                var result = JsonConvert.DeserializeObject<DebugControl>(data);
+                if (result != null)
+                    debugControlEvent?.Invoke(result);
+            }
+
             private void HandleValidConnection(MqttApplicationMessage msg, IList<string> wildcarditems)
             {
                 var data = System.Text.Encoding.UTF8.GetString(msg.Payload);
