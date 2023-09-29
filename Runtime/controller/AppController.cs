@@ -74,7 +74,7 @@ namespace PuzzleCubes.Controller {
 
 		public void ToggleSplashScreen() {
             if (splashScreen) {
-				ShowSplashScreen(splashScreen.activeSelf);
+				ShowSplashScreen(!splashScreen.activeSelf);
 			}
         }
 	}
