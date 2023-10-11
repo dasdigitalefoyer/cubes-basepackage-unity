@@ -23,7 +23,8 @@ namespace PuzzleCubes.Controller {
             }
 
 			state.AppVersion = Application.version;
-			state.CubeId = SystemInfo.deviceName;
+			if(state.CubeId.Equals(string.Empty)
+				state.CubeId = SystemInfo.deviceName;
 			state.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
 			state.IsRunning = true;
 			Initialize();
