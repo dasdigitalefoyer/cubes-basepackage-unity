@@ -38,15 +38,18 @@ namespace PuzzleCubes.Views {
 
 		#region Public Methods
 		public void SetActive() {
-			StopCoroutine(nameof(Activate));
-			StartCoroutine(Activate());
+			if (gameObject.activeInHierarchy) {
+				StopCoroutine(nameof(Activate));
+				StartCoroutine(Activate());
+			} else {
+				Debug.LogError("EventIndicator: Can't start coroutine cause GameObject is disabled.");
+			}
 		}
 
 		public void SetActive(bool active) {
 			activeDuration = 0;
 			stateActive = active;
-			StopCoroutine(nameof(Activate));
-			StartCoroutine(Activate());
+			SetActive();
 		}
 		#endregion
 
