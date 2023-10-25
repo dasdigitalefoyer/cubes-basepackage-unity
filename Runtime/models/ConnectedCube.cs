@@ -20,6 +20,18 @@ namespace PuzzleCubes
                 get => edge;
                 set => edge = value;
             }
+
+            // override Equals
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+
+                ConnectedCube cc = (ConnectedCube)obj;
+                return (id == cc.id) && (edge == cc.edge);
+            }
         }
     }
 }

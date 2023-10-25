@@ -33,6 +33,18 @@ namespace PuzzleCubes
                 get => connectedTo;
                 set => connectedTo = value;
             }
+
+            // override Equals
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+
+                ValidConnection vc = (ValidConnection)obj;
+                return (edge == vc.edge) && (valid == vc.valid) && (connectedTo == vc.connectedTo);
+            }
         }
     }
 }
