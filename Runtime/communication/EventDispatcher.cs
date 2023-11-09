@@ -31,13 +31,13 @@ namespace PuzzleCubes
             protected IDictionary<MqttTopicFilter, MqttActions.Message> subscriptions 
                 = new Dictionary<MqttTopicFilter, MqttActions.Message> (  );
 
+            // mapping of backend events to unity Events
             protected IDictionary<Type, Action<EventDispatcher, object>> jsonTypeToEventMap 
                 = new Dictionary<Type, Action<EventDispatcher, object>> (  )
                 {
                     { typeof(CubeControl), (x,o) => x.cubeControlEvent.Invoke(o as CubeControl)},
                     { typeof(CubeState), (x,o) => x.cubeStateEvent.Invoke(o as CubeState)},
-                    { typeof(Notification), (x,o) => x.notificationEvent.Invoke(o as Notification)},
-                    { typeof(ValidConnection), (x,o) => x.validConnectionEvent.Invoke(o as ValidConnection)},
+                    { typeof(Notification), (x,o) => x.notificationEvent.Invoke(o as Notification)},                    
                     { typeof(DebugControl), (x,o) => x.debugControlEvent.Invoke(o as DebugControl)},
                 };
 
@@ -61,7 +61,7 @@ namespace PuzzleCubes
 
             protected virtual void Initialize()
             {
-                //    mqttCommunication.Subscribe("test", HandleTest );
+                // add MQTT subscriptions
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(validConnectionTopic(appController.state.CubeId)).Build(), HandleValidConnection);
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(debugTopic).WithNoLocal().Build(), HandleDebugControl);
@@ -96,6 +96,7 @@ namespace PuzzleCubes
                 Debug.Log("HandleTest: " + msg.Payload );
             }
             
+            // From MQTT
             protected void HandleDebugControl(MqttApplicationMessage msg, IList<string> wildcardItem)
             {
                 var data = System.Text.Encoding.UTF8.GetString(msg.Payload);
@@ -104,6 +105,7 @@ namespace PuzzleCubes
                     debugControlEvent?.Invoke(result);
             }
 
+            // From MQTT
             private void HandleValidConnection(MqttApplicationMessage msg, IList<string> wildcarditems)
             {
                 var data = System.Text.Encoding.UTF8.GetString(msg.Payload);
@@ -125,20 +127,10 @@ namespace PuzzleCubes
                 PostInitialize();
             }
 
-            public void HandleWebsocketEvent(WebSocketDatagram data)
-            {
-                Debug.Log("handleWebsocketEvent!");
-                if (data.Notification != null)                
-                    notificationEvent.Invoke(data.Notification);
-                if (data.CubeControl != null)
-                    cubeControlEvent.Invoke(data.CubeControl);
-                if (data.CubeState != null)
-                    cubeStateEvent.Invoke(data.CubeState);
-                if (data.AppDatagram != null)
-                    appDatagramEvent.Invoke(data.AppDatagram);
-            }
+      
 
        
+            // EVENTS FROM CUBE BACKEND (e.g. CubeControl)
             public void HandleJsonEvent(JsonDatagram data)
             {
 
