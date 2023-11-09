@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 523420240045937840}
   - component: {fileID: 859127933}
   - component: {fileID: 859127943}
+  - component: {fileID: 1167834826}
+  - component: {fileID: 1167834827}
+  - component: {fileID: 1167834831}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -45,21 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7869bba1833b10f4d921625ed1eb5b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonEvent:
+  connectedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PuzzleCubes.Communication.EventDispatcher, Unity.com.mirevi.pc-unity-base
-        m_MethodName: HandleJsonEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   host: localhost
   clientId: 
   port: 1883
@@ -92,3 +83,100 @@ MonoBehaviour:
         m_CallState: 2
   host: localhost
   port: 5555
+--- !u!114 &1167834826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523420240045937853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791a34d8ffe25424c876ebf65310c25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1167834827}
+        m_TargetAssemblyTypeName: PuzzleCubes.Communication.EventDispatcher, Unity.com.mirevi.pc-unity-base
+        m_MethodName: HandleJsonEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  orientation: 0
+--- !u!114 &1167834827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523420240045937853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af90f20aba34104bb1a59e6dcc8b1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubeControlEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PuzzleCubes.Views.CubeControlDebugView, Unity.com.mirevi.pc-unity-base
+        m_MethodName: HandleCubeControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  cubeStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  notificationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  validConnectionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  debugControlEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  appDatagramEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  mqttCommunication: {fileID: 0}
+  zmqCommunication: {fileID: 0}
+  appController: {fileID: 0}
+--- !u!114 &1167834831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523420240045937853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8fc2990ddd08840b28cbc3e4778c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splashScreen: {fileID: 0}
+  state:
+    appName: Sample
+    appVersion: 
+    processId: 0
+    cubeId: TEST
+    isRunning: 0
+    volume: 0
+    mqttConnected: 0
+  stateEvent:
+    m_PersistentCalls:
+      m_Calls: []

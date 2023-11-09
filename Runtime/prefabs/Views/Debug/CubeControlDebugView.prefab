@@ -1147,7 +1147,7 @@ MonoBehaviour:
   rotationImpulseLeft: {fileID: 9018019744020776256}
   rotationImpulseRight: {fileID: 9018019743311157480}
   isMoving: {fileID: 9018019742158047840}
-  direction: {fileID: 0}
+  direction: {fileID: 3379834506965600054}
   tap: {fileID: 9018019743219261465}
 --- !u!1 &9018019744020776380
 GameObject:
