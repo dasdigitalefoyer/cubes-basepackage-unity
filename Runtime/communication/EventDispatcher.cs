@@ -115,11 +115,11 @@ namespace PuzzleCubes
             void Start()
             {
                 if(mqttCommunication == null)
-                    mqttCommunication = GameObject.FindObjectOfType<MqttCommunication>();
+                    mqttCommunication = this.GetComponentInChildren <MqttCommunication>();
                 if(zmqCommunication == null)
-                    zmqCommunication = GameObject.FindObjectOfType<ZmqCommunication>();
+                    zmqCommunication = this.GetComponentInChildren<ZmqCommunication>();
                 if(appController == null)
-                    appController = GameObject.FindObjectOfType<AppController>();
+                    appController = this.GetComponentInChildren<AppController>();
           
                 Initialize();
                 PostInitialize();
