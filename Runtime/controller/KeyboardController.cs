@@ -10,14 +10,22 @@ namespace PuzzleCubes.Controller
     using System.Collections.Generic;
     
     using UnityEditor;
+    using UnityEngine.Animations;
+
 
     public class KeyboardController : MonoBehaviour
     {
         
         public JsonEvent jsonEvent;
+
+
+        public float orientation;
         
         protected IDictionary<KeyCode, Action> keyToEventMap 
             = new Dictionary<KeyCode, Action> (  );
+
+        protected IDictionary<String, Action<float>> axisToEventMap 
+            = new Dictionary<String, Action<float>> (  );
        
         protected void dispatchObject(object o) {
 			JsonDatagram jd = new JsonDatagram();
@@ -83,6 +91,22 @@ namespace PuzzleCubes.Controller
 					Tap = true});
             } );
 
+            /* ORIENTATION */
+
+            axisToEventMap.Add("Horizontal", (value) => {
+                Debug.Log("Horizontal: " + value);
+                orientation-=value;
+                //  orientation between -180 and 180 degrees
+                if (orientation > 180) orientation -= 360;
+                else if (orientation < -180) orientation += 360;
+
+
+                dispatchObject(new CubeControl  {
+                    Orientation =orientation});
+            } );
+           
+            /* ORIENTATION - END */
+
             // SETUP CUBECONTROL - END
 
             // Toggle DebugView & Graphy
@@ -112,6 +136,11 @@ namespace PuzzleCubes.Controller
             foreach(KeyValuePair<KeyCode, Action> kvp in keyToEventMap)
             {
                 if(Input.GetKeyDown(kvp.Key)) kvp.Value();
+            }
+            foreach(KeyValuePair<String, Action<float>> kvp in axisToEventMap)
+            {
+              
+                 kvp.Value( Input.GetAxis(kvp.Key));
             }
         }
     }

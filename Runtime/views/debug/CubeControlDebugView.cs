@@ -23,6 +23,11 @@ namespace PuzzleCubes.Views {
 		private EventIndicator rotationImpulseRight;
 		[SerializeField]
 		private EventIndicator isMoving;
+
+
+		[SerializeField]
+		private Transform direction;
+
 		[SerializeField]
 		private EventIndicator tap;
 		#endregion
@@ -50,6 +55,8 @@ namespace PuzzleCubes.Views {
 			if (cubeControl.Moving.HasValue) {
 				IsMoving((bool)cubeControl.Moving);
 			}
+
+			direction.rotation = Quaternion.Euler(0.0f, 0.0f, cubeControl.Orientation.GetValueOrDefault()); 
 
 			if (cubeControl.Tap.GetValueOrDefault()) Tap();
 		}
