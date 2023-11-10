@@ -8,6 +8,8 @@ namespace PuzzleCubes
         using UnityEngine.Events;
         using Newtonsoft.Json.Linq;
         using MQTTnet;
+        using System.Collections.Generic;
+
 
         [System.Serializable]
         public class NotificationEvent : UnityEvent<Notification>
@@ -30,6 +32,11 @@ namespace PuzzleCubes
         }
 
         [System.Serializable]
+        public class CubePoseEvent : UnityEvent<CubePose>
+        {
+        }
+
+        [System.Serializable]
         public class CubeControlEvent : UnityEvent<CubeControl>
         {
         }
@@ -39,10 +46,7 @@ namespace PuzzleCubes
         {
         }
 
-        [System.Serializable]
-        public class MqttEvent : UnityEvent<MqttApplicationMessage>
-        {
-        }
+       
 
         [System.Serializable]
         public class AppStateEvent : UnityEvent<AppState>
@@ -58,6 +62,26 @@ namespace PuzzleCubes
         public class DebugControlEvent : UnityEvent<DebugControl>
         {
         }
+
+        [System.Serializable]
+        public class MqttEvent : UnityEvent<MqttApplicationMessage,  IList<string>> {
+	    }
+
+        [System.Serializable]
+        public class FloatEvent : UnityEvent<float> {
+	    }
+
+        [System.Serializable]
+        public class StringEvent : UnityEvent<string> {
+	    }
+
+        [System.Serializable]
+        public class BoolEvent : UnityEvent<bool> {
+	    }
+
+        [System.Serializable]
+        public class IntEvent : UnityEvent<int> {
+	    }
     }
 
 }

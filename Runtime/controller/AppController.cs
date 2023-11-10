@@ -8,6 +8,8 @@ namespace PuzzleCubes.Controller {
 		public static AppController Instance { get; protected set; }
 		public GameObject splashScreen;
 
+		public CubePoseEvent ownPoseEvent;
+
 		public AppState state = new AppState();
 		public AppStateEvent stateEvent;
 		// public MqttCommunication mqttCommunication;
@@ -65,6 +67,12 @@ namespace PuzzleCubes.Controller {
 		public void HandleMqttConnected(bool connected) {
 			state.MqttConnected = connected;
 			stateDirty = true;
+		}
+
+
+		public void HandleCubePose(Models.CubePose pose) {
+			if(pose.CubeId == state.CubeId)
+				ownPoseEvent?.Invoke(pose);
 		}
 
 		public void ShowSplashScreen(bool active) {

@@ -11,6 +11,8 @@ namespace PuzzleCubes.Controller
     
     using UnityEditor;
     using UnityEngine.Animations;
+    using Newtonsoft.Json;
+    using MQTTnet;
 
 
     public class KeyboardController : MonoBehaviour
@@ -37,6 +39,22 @@ namespace PuzzleCubes.Controller
 			
 			jd.TokenData.Add(jsonKey, t);
 			jsonEvent.Invoke(jd);
+		}
+
+
+          protected void dispatchAsMqtt(object o, String topic, MqttEvent e) {
+            var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.Objects
+            });
+             var msg = new MqttApplicationMessage();
+            msg.Topic = topic;
+            msg.Payload = System.Text.Encoding.UTF8.GetBytes(json);
+            msg.MessageExpiryInterval = 3600;
+            e.Invoke(msg, null);
+
+			
 		}
 
         
@@ -94,7 +112,7 @@ namespace PuzzleCubes.Controller
             /* ORIENTATION */
 
             axisToEventMap.Add("Horizontal", (value) => {
-                Debug.Log("Horizontal: " + value);
+                // Debug.Log("Horizontal: " + value);
                 orientation-=value;
                 //  orientation between -180 and 180 degrees
                 if (orientation > 180) orientation -= 360;
@@ -139,8 +157,8 @@ namespace PuzzleCubes.Controller
             }
             foreach(KeyValuePair<String, Action<float>> kvp in axisToEventMap)
             {
-              
-                 kvp.Value( Input.GetAxis(kvp.Key));
+                if( Input.GetAxis(kvp.Key) != 0)
+                    kvp.Value( Input.GetAxis(kvp.Key));
             }
         }
     }

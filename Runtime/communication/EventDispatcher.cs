@@ -27,6 +27,8 @@ namespace PuzzleCubes
             public string dedicatedAppTopicPrefix(string cubeId) =>  $"puzzleCubes/{cubeId}/app/";
 
             public string validConnectionTopic(string cubeId) =>  $"puzzleCubes/{cubeId}/app/connection";
+
+            public const string posesTopic = "puzzleCubes/poses";
         
             protected IDictionary<MqttTopicFilter, MqttActions.Message> subscriptions 
                 = new Dictionary<MqttTopicFilter, MqttActions.Message> (  );
@@ -53,6 +55,8 @@ namespace PuzzleCubes
 
             public AppDatagramEvent appDatagramEvent;
 
+            public CubePoseEvent poseEvent;
+
             public MqttCommunication mqttCommunication;
             public ZmqCommunication zmqCommunication;
             public AppController appController;
@@ -62,15 +66,17 @@ namespace PuzzleCubes
             protected virtual void Initialize()
             {
                 // add MQTT subscriptions
-                subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build() ,HandleTest);
+                // subscriptions.Add(new MqttTopicFilterBuilder().WithTopic("test").WithNoLocal().Build(), HandleTest);
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(validConnectionTopic(appController.state.CubeId)).Build(), HandleValidConnection);
                 subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(debugTopic).WithNoLocal().Build(), HandleDebugControl);
+                subscriptions.Add(new MqttTopicFilterBuilder().WithTopic(posesTopic).WithNoLocal().Build(), HandlePoses);
 
                 // create last will message with running = false
                 AppState s = new AppState();
                 s.AppName = appController.state.AppName;
                 s.CubeId = appController.state.CubeId;
-                
+
+
                 var json = JsonConvert.SerializeObject(s, Formatting.Indented, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -80,10 +86,11 @@ namespace PuzzleCubes
                 msg.Topic = appStateTopic(s.CubeId);
                 msg.Payload = System.Text.Encoding.UTF8.GetBytes(json);
                 msg.Retain = true;
-                mqttCommunication.Initialize(appController.state.CubeId + "." + appController.state.AppName, msg );
+                mqttCommunication.Initialize(appController.state.CubeId + "." + appController.state.AppName, msg);
 
             }
 
+           
 
             protected virtual void PostInitialize()
             {
@@ -92,9 +99,21 @@ namespace PuzzleCubes
                 mqttCommunication.Subscribe(subscriptions);
             }
 
-            protected void HandleTest(MqttApplicationMessage msg, IList<string> wildcardItem){
-                Debug.Log("HandleTest: " + msg.Payload );
+            private void HandlePoses(MqttApplicationMessage msg, IList<string> wildcardItem)
+            {
+                var data = System.Text.Encoding.UTF8.GetString(msg.Payload);
+                var result = JsonConvert.DeserializeObject<CubePose[]>(data);
+                foreach(var dc in result)
+                {
+                    
+                    poseEvent?.Invoke(dc);
+                }
+                
             }
+
+            // protected void HandleTest(MqttApplicationMessage msg, IList<string> wildcardItem){
+            //     Debug.Log("HandleTest: " + msg.Payload );
+            // }
             
             // From MQTT
             protected void HandleDebugControl(MqttApplicationMessage msg, IList<string> wildcardItem)
