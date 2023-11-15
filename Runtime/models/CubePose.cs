@@ -10,7 +10,7 @@ namespace PuzzleCubes
         public class CubePose
         {
 
-            [UnityEngine.SerializeField] private string cubeId;
+            [UnityEngine.SerializeField] private string id;
             [UnityEngine.SerializeField] private UnityEngine.Vector2 position;
             [UnityEngine.SerializeField] private UnityEngine.Vector2 relativeMotion;
 

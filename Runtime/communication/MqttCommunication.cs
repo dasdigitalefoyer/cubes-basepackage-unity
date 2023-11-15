@@ -57,6 +57,7 @@ namespace PuzzleCubes
             }
             public async void Subscribe(MqttTopicFilter topicFilter, MqttActions.Message a)
             {
+                Debug.Log("Subscribing to " + topicFilter.Topic);
                  await managedMqttClient.SubscribeAsync(new List<MqttTopicFilter>(){topicFilter});
                  this.subscriptions.Add(topicFilter.Topic,a);
             }
@@ -64,7 +65,11 @@ namespace PuzzleCubes
             {
                  await managedMqttClient.SubscribeAsync(topicFilter.Keys);
                  foreach(var kvp in topicFilter)
-                    this.subscriptions.Add(kvp.Key.Topic,kvp.Value);
+                 {
+                     Debug.Log("Subscribing to " + kvp.Key.Topic);
+                      this.subscriptions.Add(kvp.Key.Topic,kvp.Value);
+                 }
+                   
             }
             public async Task Connect()
             {
