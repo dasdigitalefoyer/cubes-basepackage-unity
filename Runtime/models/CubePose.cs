@@ -29,7 +29,7 @@ namespace PuzzleCubes
             public float Orientation { get => orientation; set => orientation = value; }
             public CubeDirection RelativeDirection { get => relativeDirection; set => relativeDirection = value; }
             public Vector2 RelativeMotion { get => relativeMotion; set => relativeMotion = value; }
-            public string CubeId { get => cubeId; set => cubeId = value; }
+            public string Id { get => id; set => id = value; }
         }
 
     }

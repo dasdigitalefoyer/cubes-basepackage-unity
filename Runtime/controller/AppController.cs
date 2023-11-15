@@ -71,7 +71,7 @@ namespace PuzzleCubes.Controller {
 
 
 		public void HandleCubePose(Models.CubePose pose) {
-			if(pose.CubeId == state.CubeId)
+			if(pose.Id == state.CubeId)
 				ownPoseEvent?.Invoke(pose);
 		}
 
@@ -87,5 +87,5 @@ namespace PuzzleCubes.Controller {
 			}
         }
 	}
-	
+
 }
